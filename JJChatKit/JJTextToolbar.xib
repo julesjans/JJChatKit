@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JJTextToolbar"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="R0F-zz-tdZ" customClass="JJTextToolbar">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJo-H7-paU">
+                    <rect key="frame" x="538" y="284" width="54" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="36" id="5R8-UM-T6e"/>
+                        <constraint firstAttribute="width" constant="54" id="9rs-Qq-Mbn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="Send">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="5R8-UM-T6e"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="didPostMessage:" destination="R0F-zz-tdZ" eventType="touchUpInside" id="hce-1B-JRc"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Placeholder text" translatesAutoresizingMaskIntoConstraints="NO" id="yT9-gO-vEa">
+                    <rect key="frame" x="8" y="8" width="522" height="584"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="KJo-H7-paU" firstAttribute="leading" secondItem="yT9-gO-vEa" secondAttribute="trailing" constant="8" id="1pl-cv-8A3"/>
+                <constraint firstItem="yT9-gO-vEa" firstAttribute="leading" secondItem="R0F-zz-tdZ" secondAttribute="leading" constant="8" id="Rcx-Ps-2IF"/>
+                <constraint firstItem="KJo-H7-paU" firstAttribute="top" secondItem="R0F-zz-tdZ" secondAttribute="top" constant="9" id="fYJ-yA-pjf"/>
+                <constraint firstAttribute="bottom" secondItem="yT9-gO-vEa" secondAttribute="bottom" constant="8" id="kxD-DX-4cA"/>
+                <constraint firstItem="KJo-H7-paU" firstAttribute="centerY" secondItem="yT9-gO-vEa" secondAttribute="centerY" id="prj-JC-Nl1"/>
+                <constraint firstItem="yT9-gO-vEa" firstAttribute="top" secondItem="R0F-zz-tdZ" secondAttribute="top" constant="8" id="vIl-HY-L1N"/>
+                <constraint firstAttribute="trailing" secondItem="KJo-H7-paU" secondAttribute="trailing" constant="8" id="xyJ-MQ-QCZ"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="fYJ-yA-pjf"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="postButton" destination="KJo-H7-paU" id="obh-lj-QsG"/>
+                <outlet property="textView" destination="yT9-gO-vEa" id="daE-bk-HuF"/>
+            </connections>
+            <point key="canvasLocation" x="446" y="474"/>
+        </view>
+    </objects>
+</document>
