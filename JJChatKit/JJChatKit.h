@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char JJChatKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <JJChatKit/PublicHeader.h>
 
-
+#import <JJChatKit/JJChatViewController.h>

@@ -10,6 +10,16 @@
 		842F82B31B5FC0B500E9A9A6 /* JJChatKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F82B21B5FC0B500E9A9A6 /* JJChatKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		842F82B91B5FC0B600E9A9A6 /* JJChatKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842F82AD1B5FC0B500E9A9A6 /* JJChatKit.framework */; };
 		842F82C01B5FC0B600E9A9A6 /* JJChatKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F82BF1B5FC0B600E9A9A6 /* JJChatKitTests.m */; };
+		842F83151B5FC24000E9A9A6 /* JJChatViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F83131B5FC24000E9A9A6 /* JJChatViewController.h */; };
+		842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F83141B5FC24000E9A9A6 /* JJChatViewController.m */; };
+		842F831D1B5FC35200E9A9A6 /* JJMessageBubbleCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F831B1B5FC35200E9A9A6 /* JJMessageBubbleCell.h */; };
+		842F831E1B5FC35200E9A9A6 /* JJMessageBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F831C1B5FC35200E9A9A6 /* JJMessageBubbleCell.m */; };
+		84C60B381B6131170031271F /* NSDate+Conversions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B361B6131170031271F /* NSDate+Conversions.h */; };
+		84C60B391B6131170031271F /* NSDate+Conversions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C60B371B6131170031271F /* NSDate+Conversions.m */; };
+		84C60B3B1B6133E40031271F /* JJMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B3A1B6133E40031271F /* JJMessage.h */; };
+		84C60B3D1B61364A0031271F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84C60B3C1B61364A0031271F /* Images.xcassets */; };
+		84C60B421B6138DB0031271F /* UIColor+JJChatKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B401B6138DB0031271F /* UIColor+JJChatKit.h */; };
+		84C60B431B6138DB0031271F /* UIColor+JJChatKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C60B411B6138DB0031271F /* UIColor+JJChatKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +39,16 @@
 		842F82B81B5FC0B600E9A9A6 /* JJChatKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JJChatKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		842F82BE1B5FC0B600E9A9A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842F82BF1B5FC0B600E9A9A6 /* JJChatKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JJChatKitTests.m; sourceTree = "<group>"; };
+		842F83131B5FC24000E9A9A6 /* JJChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJChatViewController.h; sourceTree = "<group>"; };
+		842F83141B5FC24000E9A9A6 /* JJChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJChatViewController.m; sourceTree = "<group>"; };
+		842F831B1B5FC35200E9A9A6 /* JJMessageBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJMessageBubbleCell.h; sourceTree = "<group>"; };
+		842F831C1B5FC35200E9A9A6 /* JJMessageBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJMessageBubbleCell.m; sourceTree = "<group>"; };
+		84C60B361B6131170031271F /* NSDate+Conversions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Conversions.h"; sourceTree = "<group>"; };
+		84C60B371B6131170031271F /* NSDate+Conversions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Conversions.m"; sourceTree = "<group>"; };
+		84C60B3A1B6133E40031271F /* JJMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJMessage.h; sourceTree = "<group>"; };
+		84C60B3C1B61364A0031271F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = JJChatKit/Images.xcassets; sourceTree = "<group>"; };
+		84C60B401B6138DB0031271F /* UIColor+JJChatKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JJChatKit.h"; sourceTree = "<group>"; };
+		84C60B411B6138DB0031271F /* UIColor+JJChatKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JJChatKit.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +73,7 @@
 		842F82A31B5FC0B500E9A9A6 = {
 			isa = PBXGroup;
 			children = (
+				84C60B3C1B61364A0031271F /* Images.xcassets */,
 				842F82AF1B5FC0B500E9A9A6 /* JJChatKit */,
 				842F82BC1B5FC0B600E9A9A6 /* JJChatKitTests */,
 				842F82AE1B5FC0B500E9A9A6 /* Products */,
@@ -72,6 +93,15 @@
 			isa = PBXGroup;
 			children = (
 				842F82B21B5FC0B500E9A9A6 /* JJChatKit.h */,
+				84C60B3A1B6133E40031271F /* JJMessage.h */,
+				842F83131B5FC24000E9A9A6 /* JJChatViewController.h */,
+				842F83141B5FC24000E9A9A6 /* JJChatViewController.m */,
+				842F831B1B5FC35200E9A9A6 /* JJMessageBubbleCell.h */,
+				842F831C1B5FC35200E9A9A6 /* JJMessageBubbleCell.m */,
+				84C60B361B6131170031271F /* NSDate+Conversions.h */,
+				84C60B371B6131170031271F /* NSDate+Conversions.m */,
+				84C60B401B6138DB0031271F /* UIColor+JJChatKit.h */,
+				84C60B411B6138DB0031271F /* UIColor+JJChatKit.m */,
 				842F82B01B5FC0B500E9A9A6 /* Supporting Files */,
 			);
 			path = JJChatKit;
@@ -109,7 +139,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				842F831D1B5FC35200E9A9A6 /* JJMessageBubbleCell.h in Headers */,
+				84C60B381B6131170031271F /* NSDate+Conversions.h in Headers */,
 				842F82B31B5FC0B500E9A9A6 /* JJChatKit.h in Headers */,
+				84C60B421B6138DB0031271F /* UIColor+JJChatKit.h in Headers */,
+				84C60B3B1B6133E40031271F /* JJMessage.h in Headers */,
+				842F83151B5FC24000E9A9A6 /* JJChatViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C60B3D1B61364A0031271F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +245,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */,
+				842F831E1B5FC35200E9A9A6 /* JJMessageBubbleCell.m in Sources */,
+				84C60B431B6138DB0031271F /* UIColor+JJChatKit.m in Sources */,
+				84C60B391B6131170031271F /* NSDate+Conversions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +438,7 @@
 				842F82C51B5FC0B600E9A9A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		842F82C61B5FC0B600E9A9A6 /* Build configuration list for PBXNativeTarget "JJChatKitTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +447,7 @@
 				842F82C81B5FC0B600E9A9A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
