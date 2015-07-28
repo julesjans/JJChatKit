@@ -12,7 +12,7 @@
 
 @interface JJBubble()
 
-@property (nonatomic, assign) BubblePosition bubblePosition;
+
 
 @end
 
@@ -20,15 +20,22 @@
 @implementation JJBubble
 
 
-- (instancetype)initWithFrame:(CGRect)frame position:(BubblePosition)position
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.bubblePosition = position;
+//        self.bubblePosition = position;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.backgroundColor = [UIColor whiteColor];
     }
     return self;
+}
+
+- (void)setBubblePosition:(BubblePosition)bubblePosition
+{
+    _bubblePosition = bubblePosition;
+    
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect

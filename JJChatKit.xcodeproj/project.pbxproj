@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		841FD48F1B67C901004B89C7 /* JJCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 841FD48E1B67C901004B89C7 /* JJCollectionViewCell.xib */; };
 		842F82B31B5FC0B500E9A9A6 /* JJChatKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F82B21B5FC0B500E9A9A6 /* JJChatKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		842F82B91B5FC0B600E9A9A6 /* JJChatKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842F82AD1B5FC0B500E9A9A6 /* JJChatKit.framework */; };
 		842F82C01B5FC0B600E9A9A6 /* JJChatKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F82BF1B5FC0B600E9A9A6 /* JJChatKitTests.m */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		841FD48E1B67C901004B89C7 /* JJCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JJCollectionViewCell.xib; sourceTree = "<group>"; };
 		842F82AD1B5FC0B500E9A9A6 /* JJChatKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JJChatKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		842F82B11B5FC0B500E9A9A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842F82B21B5FC0B500E9A9A6 /* JJChatKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JJChatKit.h; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				842F83141B5FC24000E9A9A6 /* JJChatCollectionViewController.m */,
 				842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */,
 				842F831C1B5FC35200E9A9A6 /* JJCollectionViewCell.m */,
+				841FD48E1B67C901004B89C7 /* JJCollectionViewCell.xib */,
 				84C60B441B6164B40031271F /* JJBubble.h */,
 				84C60B451B6164B40031271F /* JJBubble.m */,
 				84C60B4D1B61ABF20031271F /* JJFlowLayout.h */,
@@ -246,6 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				841FD48F1B67C901004B89C7 /* JJCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,9 +28,12 @@
 
 @implementation JJFlowLayout
 
+
 - (instancetype)init
 {
     if (!(self = [super init])) return nil;
+    
+    self.scrollDirection = UICollectionViewScrollDirectionVertical;
     
     self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
     

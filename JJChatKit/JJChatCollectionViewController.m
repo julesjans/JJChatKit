@@ -16,8 +16,16 @@
 
 @interface JJChatCollectionViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (nonatomic, strong) JJFlowLayout *flowLayout;
+
+
+
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+
+@property (nonatomic, strong) JJCollectionViewCell *collectionCellForHeight;
+
 
 
 // Handling the view that is used to handle the keyboard...?
@@ -48,19 +56,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    JJFlowLayout *flowLayout = [[JJFlowLayout alloc] init];
-    
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical; // This is default
-    
-    
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
 
+    self.flowLayout = [[JJFlowLayout alloc] init];
     
-    
-    
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.backgroundColor = [UIColor whiteColor];
@@ -68,20 +67,16 @@
     self.collectionView.showsVerticalScrollIndicator = NO;
     
     [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
-
     
     self.view = self.collectionView;
 }
 
-// Handle the rotation
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self.collectionView.collectionViewLayout invalidateLayout];
     [self.collectionView reloadData];
 }
-
-
 
 
 
@@ -127,8 +122,19 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGRect frame = self.collectionView.bounds;
+    
     CGFloat cellWidth = frame.size.width;
-    return CGSizeMake(cellWidth, 100.0f);
+    
+    
+    
+    if (!self.collectionCellForHeight) {
+        self.collectionCellForHeight = [[JJCollectionViewCell alloc] init];
+    }
+    
+    [self configureCell:self.collectionCellForHeight atIndexPath:indexPath];
+    
+    
+    return CGSizeMake(cellWidth, [self.collectionCellForHeight systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height);
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -155,12 +161,21 @@
 {
     JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    NSDictionary<JJMessage> *message = [self.messages objectAtIndex:indexPath.row];
-
-    JJCollectionViewCell *bubbleCell = (JJCollectionViewCell *)cell;
-    bubbleCell.message = message;
+    
+    [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
+}
+
+
+
+- (void)configureCell:(JJCollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    
+    NSDictionary<JJMessage> *message = [self.messages objectAtIndex:indexPath.row];
+    
+    JJCollectionViewCell *bubbleCell = (JJCollectionViewCell *)cell;
+    bubbleCell.message = message;
 }
 
 

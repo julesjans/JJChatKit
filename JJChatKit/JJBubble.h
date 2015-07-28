@@ -17,6 +17,9 @@ typedef enum : NSUInteger {
 
 @interface JJBubble : UIView
 
+/// The position of the bubble relative to whether the message is the recipient
+@property (nonatomic, assign) BubblePosition bubblePosition;
+
 /// Designated initializer
 - (instancetype)initWithFrame:(CGRect)frame position:(BubblePosition)position;
 
