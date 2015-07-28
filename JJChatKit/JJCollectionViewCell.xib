@@ -6,15 +6,45 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Y0q-Y5-xk9">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Y0q-Y5-xk9" customClass="JJCollectionViewCell">
             <rect key="frame" x="0.0" y="0.0" width="496" height="344"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="496" height="344"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qei-bc-rRG" customClass="JJBubble">
+                        <rect key="frame" x="431" y="0.0" width="57" height="344"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is where the message goes!" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecM-Mo-4Uv">
+                                <rect key="frame" x="8" y="8" width="41" height="328"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ecM-Mo-4Uv" secondAttribute="trailing" constant="8" id="7k9-yB-RrI"/>
+                            <constraint firstItem="ecM-Mo-4Uv" firstAttribute="top" secondItem="qei-bc-rRG" secondAttribute="top" constant="8" id="Luy-fx-EGg"/>
+                            <constraint firstItem="ecM-Mo-4Uv" firstAttribute="leading" secondItem="qei-bc-rRG" secondAttribute="leading" constant="8" id="Tun-el-p0o"/>
+                            <constraint firstAttribute="bottom" secondItem="ecM-Mo-4Uv" secondAttribute="bottom" constant="8" id="grJ-6x-ZCu"/>
+                        </constraints>
+                    </view>
+                </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <constraints>
+                <constraint firstItem="qei-bc-rRG" firstAttribute="top" secondItem="Y0q-Y5-xk9" secondAttribute="top" id="0BF-W3-rBy"/>
+                <constraint firstAttribute="bottom" secondItem="qei-bc-rRG" secondAttribute="bottom" id="Azd-PQ-RRK"/>
+                <constraint firstItem="qei-bc-rRG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Y0q-Y5-xk9" secondAttribute="leading" constant="8" placeholder="YES" id="KXs-5I-RPr"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qei-bc-rRG" secondAttribute="trailing" constant="8" placeholder="YES" id="eHw-nk-A1n"/>
+            </constraints>
             <size key="customSize" width="496" height="344"/>
+            <connections>
+                <outlet property="bubbleView" destination="qei-bc-rRG" id="Ohb-Up-uCz"/>
+                <outlet property="messageLabel" destination="ecM-Mo-4Uv" id="T03-99-6eS"/>
+            </connections>
             <point key="canvasLocation" x="707" y="659"/>
         </collectionViewCell>
     </objects>

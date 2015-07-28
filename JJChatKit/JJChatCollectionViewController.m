@@ -24,9 +24,6 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 
-@property (nonatomic, strong) JJCollectionViewCell *collectionCellForHeight;
-
-
 
 // Handling the view that is used to handle the keyboard...?
 @property (nonatomic) CGSize kbSize;
@@ -66,7 +63,12 @@
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
     
-    [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
+    //    [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
+    UINib *nib = [UINib nibWithNibName:@"JJCollectionViewCell" bundle: [NSBundle bundleForClass:[self class]]];
+    [self.collectionView registerNib:nib forCellWithReuseIdentifier:@"cell"];
+    
+    
+    
     
     self.view = self.collectionView;
 }
@@ -101,7 +103,7 @@
         NSMutableArray *array = [[NSMutableArray alloc]init];
         int x=0;
         while (x < 2000) {
-            [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(40)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
+            [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(180)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
             x++;
         }
         _messages = array;
@@ -119,23 +121,48 @@
     return self.messages.count;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+#define MESSAGE_PADDING 8.0f
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(JJFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGRect frame = self.collectionView.bounds;
-    
-    CGFloat cellWidth = frame.size.width;
-    
-    
-    
-    if (!self.collectionCellForHeight) {
-        self.collectionCellForHeight = [[JJCollectionViewCell alloc] init];
+    // Optimise the rendering here by caching the sizes of the of the rendered views
+    static NSMutableDictionary *sizes;
+    if (!sizes) {
+        sizes = [NSMutableDictionary dictionary];
     }
     
-    [self configureCell:self.collectionCellForHeight atIndexPath:indexPath];
+    // Get the text
+    NSString *text = (NSString*)[[self.messages objectAtIndex:indexPath.row] objectForKey:@"content"];
     
+    // If we have already rendered this then return the size
+    NSValue *renderedSize = [sizes objectForKey:[self stringForTextLength:text]];
+    if (renderedSize) {
+         return [renderedSize CGSizeValue];
+    }
     
-    return CGSizeMake(cellWidth, [self.collectionCellForHeight systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height);
+    // Otherwise we need to render a view and calculate the size of it!
+    CGFloat cellWidth = self.collectionView.bounds.size.width;
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(((cellWidth - (MESSAGE_PADDING * 2)) * 0.75), CGFLOAT_MAX)
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes: @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:16.0]}
+                                              context:nil];
+
+    CGSize computedSize = CGSizeMake(cellWidth, ceilf(rect.size.height) + (MESSAGE_PADDING * 2));
+    
+    // Add the size to the dictionary
+    [sizes setObject:[NSValue valueWithCGSize:computedSize] forKey:[self stringForTextLength:text]];
+    
+    return computedSize;
 }
+
+- (NSString *)stringForTextLength:(NSString *)text
+{
+    return [NSString stringWithFormat:@"%ld-%@", (long)[[UIApplication sharedApplication] statusBarOrientation], @([text length])];
+}
+
+
+
+
+
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
@@ -154,13 +181,12 @@
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 0.0;
+    return 10.0;
 }
 
 -(JJCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    
     
     [self configureCell:cell atIndexPath:indexPath];
     

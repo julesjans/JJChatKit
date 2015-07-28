@@ -10,13 +10,6 @@
 #import "UIColor+JJChatKit.h"
 
 
-@interface JJBubble()
-
-
-
-@end
-
-
 @implementation JJBubble
 
 
@@ -24,7 +17,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-//        self.bubblePosition = position;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.backgroundColor = [UIColor whiteColor];
     }
@@ -34,7 +26,6 @@
 - (void)setBubblePosition:(BubblePosition)bubblePosition
 {
     _bubblePosition = bubblePosition;
-    
     [self setNeedsDisplay];
 }
 
