@@ -8,10 +8,10 @@
 */
 
 
-#import "NSDate+Conversions.h"
+#import "NSDate+JJChatKit.h"
 
 
-@implementation NSDate (Conversions)
+@implementation NSDate (JJChatKit)
 
 
 + (NSDate *)dateFromServerDate:(NSString*)serverDate

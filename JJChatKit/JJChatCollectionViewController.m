@@ -6,23 +6,24 @@
 //  Copyright (c) 2015 Julian Jans. All rights reserved.
 //
 
-#import "JJChatViewController.h"
-
-#import "NSDate+Conversions.h"
-#import "JJMessageBubbleCell.h"
-
+#import "JJChatCollectionViewController.h"
+#import "JJCollectionViewCell.h"
 #import "JJMessage.h"
+#import "JJFlowLayout.h"
 
 
-@interface JJChatViewController ()  <UITextViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
+
+
+@interface JJChatCollectionViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate>
+
+
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 
 // Handling the view that is used to handle the keyboard...?
 @property (nonatomic) CGSize kbSize;
 @property (nonatomic) CGSize tbSize;
 @property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
-
-
 
 // All this handles the text input view - Need to do this in code..?
 @property (nonatomic, weak) IBOutlet UIButton *sendMessageButton;
@@ -31,8 +32,6 @@
 @property (nonatomic, weak) IBOutlet UIView *postView;
 @property (nonatomic, weak) IBOutlet UITextView *messageTextView;
 
-
-
 // Handles the profile image in the navigation item...?
 @property (nonatomic, strong) UIImageView *profileImage;
 @property (nonatomic, strong) UILabel *profileLabel;
@@ -40,12 +39,7 @@
 
 @end
 
-@implementation JJChatViewController
-
-
-// Handle a simple view, with a couple of bubbles...?
-
-//
+@implementation JJChatCollectionViewController
 
 
 
@@ -54,13 +48,41 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    JJFlowLayout *flowLayout = [[JJFlowLayout alloc] init];
+    
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical; // This is default
+    
+    
+    
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
 
-    [self.collectionView registerClass:[JJMessageBubbleCell class]  forCellWithReuseIdentifier:@"cell"];
-
+    
+    
+    
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
+    
+    [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
+
+    
+    self.view = self.collectionView;
 }
+
+// Handle the rotation
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    [self.collectionView reloadData];
+}
+
+
+
 
 
 #pragma mark - Messages
@@ -80,13 +102,17 @@
 
 - (NSArray *)messages
 {
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    int x=0;
-    while (x < 20) {
-        [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(40)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
-        x++;
+    if (!_messages) {
+        NSMutableArray *array = [[NSMutableArray alloc]init];
+        int x=0;
+        while (x < 2000) {
+            [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(40)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
+            x++;
+        }
+        _messages = array;
     }
-    return array;
+
+    return _messages;
 }
 
 
@@ -103,12 +129,12 @@
     CGRect frame = self.collectionView.bounds;
     CGFloat cellWidth = frame.size.width;
     return CGSizeMake(cellWidth, 100.0f);
-    
-    
 }
 
-// Create a flow layout..?
-
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.collectionView performBatchUpdates:nil completion:nil];
+}
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
@@ -125,22 +151,15 @@
     return 0.0;
 }
 
--(JJMessageBubbleCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+-(JJCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    JJMessageBubbleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-
-//    if (!cell) {
-//        cell = [[JJMessageBubbleCell alloc] initWithFrame:CGRectZero];
-//    }
+    JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
     NSDictionary<JJMessage> *message = [self.messages objectAtIndex:indexPath.row];
 
-    JJMessageBubbleCell *bubbleCell = (JJMessageBubbleCell *)cell;
+    JJCollectionViewCell *bubbleCell = (JJCollectionViewCell *)cell;
     bubbleCell.message = message;
     
-    
-    // TODO: Need to handle the read status of the message..? Key value observing..?
-
     return cell;
 }
 
@@ -154,10 +173,7 @@
 
 
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(    NSTimeInterval)duration {
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.collectionView reloadData];
-}
+
 
 
 

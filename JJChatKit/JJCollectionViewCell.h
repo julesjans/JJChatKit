@@ -3,7 +3,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JJMessageBubbleCell : UICollectionViewCell
+@interface JJCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) id message;
 

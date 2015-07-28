@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface JJChatViewController : UICollectionViewController
+@interface JJChatCollectionViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *messages;
 

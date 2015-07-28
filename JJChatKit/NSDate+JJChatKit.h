@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSDate (Conversions)
+@interface NSDate (JJChatKit)
 
 // Converts the date string from the server into an NSDate object
 + (NSDate *)dateFromServerDate:(NSString*)serverDate;
