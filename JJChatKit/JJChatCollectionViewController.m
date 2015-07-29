@@ -10,6 +10,7 @@
 #import "JJCollectionViewCell.h"
 #import "JJMessage.h"
 #import "JJFlowLayout.h"
+#import "JJBubble.h"
 
 
 
@@ -103,13 +104,18 @@
         NSMutableArray *array = [[NSMutableArray alloc]init];
         int x=0;
         while (x < 2000) {
-            [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(180)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
+            [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(200)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
             x++;
         }
         _messages = array;
     }
 
     return _messages;
+}
+
+- (UIFont *)messageFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
 }
 
 
@@ -121,7 +127,6 @@
     return self.messages.count;
 }
 
-#define MESSAGE_PADDING 8.0f
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(JJFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // Optimise the rendering here by caching the sizes of the of the rendered views
@@ -141,12 +146,12 @@
     
     // Otherwise we need to render a view and calculate the size of it!
     CGFloat cellWidth = self.collectionView.bounds.size.width;
-    CGRect rect = [text boundingRectWithSize:CGSizeMake(((cellWidth - (MESSAGE_PADDING * 2)) * 0.75), CGFLOAT_MAX)
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(((cellWidth - ((BUBBLE_PADDING * 2) + BUBBLE_FACTOR)) * 0.75), CGFLOAT_MAX)
                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes: @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:16.0]}
+                                           attributes: @{NSFontAttributeName: self.messageFont}
                                               context:nil];
 
-    CGSize computedSize = CGSizeMake(cellWidth, ceilf(rect.size.height) + (MESSAGE_PADDING * 2));
+    CGSize computedSize = CGSizeMake(cellWidth, ceilf(rect.size.height) + (BUBBLE_PADDING * 2));
     
     // Add the size to the dictionary
     [sizes setObject:[NSValue valueWithCGSize:computedSize] forKey:[self stringForTextLength:text]];

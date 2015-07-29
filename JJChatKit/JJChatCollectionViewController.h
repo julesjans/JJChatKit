@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) NSArray *messages;
 
+@property (nonatomic, strong) UIFont *messageFont;
+
 @end

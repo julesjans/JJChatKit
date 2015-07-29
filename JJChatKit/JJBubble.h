@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
+
+#define BUBBLE_PADDING 8.0
+#define BUBBLE_FACTOR 12.0
+
+
 typedef enum : NSUInteger {
     BubbleLeft,
     BubbleRight,

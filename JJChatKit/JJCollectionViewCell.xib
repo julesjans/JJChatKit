@@ -14,12 +14,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qei-bc-rRG" customClass="JJBubble">
-                        <rect key="frame" x="431" y="0.0" width="57" height="344"/>
+                        <rect key="frame" x="12" y="0.0" width="472" height="344"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is where the message goes!" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecM-Mo-4Uv">
-                                <rect key="frame" x="8" y="8" width="41" height="328"/>
+                                <rect key="frame" x="8" y="8" width="456" height="328"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="56" id="wso-gj-UcX"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -37,13 +40,16 @@
             <constraints>
                 <constraint firstItem="qei-bc-rRG" firstAttribute="top" secondItem="Y0q-Y5-xk9" secondAttribute="top" id="0BF-W3-rBy"/>
                 <constraint firstAttribute="bottom" secondItem="qei-bc-rRG" secondAttribute="bottom" id="Azd-PQ-RRK"/>
-                <constraint firstItem="qei-bc-rRG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Y0q-Y5-xk9" secondAttribute="leading" constant="8" placeholder="YES" id="KXs-5I-RPr"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qei-bc-rRG" secondAttribute="trailing" constant="8" placeholder="YES" id="eHw-nk-A1n"/>
+                <constraint firstItem="qei-bc-rRG" firstAttribute="leading" secondItem="Y0q-Y5-xk9" secondAttribute="leading" constant="12" placeholder="YES" id="KXs-5I-RPr"/>
+                <constraint firstAttribute="trailing" secondItem="qei-bc-rRG" secondAttribute="trailing" constant="12" placeholder="YES" id="eHw-nk-A1n"/>
             </constraints>
             <size key="customSize" width="496" height="344"/>
             <connections>
                 <outlet property="bubbleView" destination="qei-bc-rRG" id="Ohb-Up-uCz"/>
+                <outlet property="leftTextPadding" destination="Tun-el-p0o" id="Wu8-GH-8sf"/>
                 <outlet property="messageLabel" destination="ecM-Mo-4Uv" id="T03-99-6eS"/>
+                <outlet property="minWidth" destination="wso-gj-UcX" id="Fvv-XF-boC"/>
+                <outlet property="rightTextPadding" destination="7k9-yB-RrI" id="b1A-KA-seF"/>
             </connections>
             <point key="canvasLocation" x="707" y="659"/>
         </collectionViewCell>
