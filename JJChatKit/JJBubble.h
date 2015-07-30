@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-
-
-#define BUBBLE_PADDING 8.0
-#define BUBBLE_FACTOR 12.0
-
+#define BUBBLE_PADDING 8.0 // Padding used for the text etc within the bubble
+#define BUBBLE_FACTOR 12.0 // Used for the corner-radius and the related size of the message tail
 
 typedef enum : NSUInteger {
     BubbleLeft,

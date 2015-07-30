@@ -51,7 +51,6 @@
     self.minWidth.constant = BUBBLE_FACTOR;
     
     
-    
     NSString *visualFormat;
     
     
