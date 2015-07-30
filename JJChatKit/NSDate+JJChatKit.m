@@ -56,7 +56,7 @@
 
 - (NSDate *)dateYearsAgo:(NSUInteger)yearsAgo
 {
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *addComponents = [[NSDateComponents alloc] init];
     addComponents.year = -yearsAgo;
     return [calendar dateByAddingComponents:addComponents toDate:self options:0];

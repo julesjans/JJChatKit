@@ -10,6 +10,7 @@
 
 @protocol JJMessage <NSObject>
 
-// TODO: Add protocol methods here for the message object...
+@property (nonatomic, readonly) NSString *content;
+@property (nonatomic, readonly) BOOL recipient, read;
 
 @end

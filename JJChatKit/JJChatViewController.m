@@ -6,47 +6,38 @@
 //  Copyright (c) 2015 Julian Jans. All rights reserved.
 //
 
-#import "JJChatCollectionViewController.h"
+#import "JJChatViewController.h"
+#import "NSString+JJChatkit.h"
 #import "JJCollectionViewCell.h"
-#import "JJMessage.h"
 #import "JJFlowLayout.h"
 #import "JJBubble.h"
 
 
+@interface JJChatViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate>
 
-
-@interface JJChatCollectionViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate>
-
+// Collection View implementation
 @property (nonatomic, strong) JJFlowLayout *flowLayout;
-
-
-
-
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 
 
-// Handling the view that is used to handle the keyboard...?
-@property (nonatomic) CGSize kbSize;
-@property (nonatomic) CGSize tbSize;
-@property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
+#warning need to clear this controller up to include the text input view...
 
-// All this handles the text input view - Need to do this in code..?
-@property (nonatomic, weak) IBOutlet UIButton *sendMessageButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *sendButton;
-@property (nonatomic, weak) IBOutlet UIView *textViewContainer;
-@property (nonatomic, weak) IBOutlet UIView *postView;
-@property (nonatomic, weak) IBOutlet UITextView *messageTextView;
-
-// Handles the profile image in the navigation item...?
-@property (nonatomic, strong) UIImageView *profileImage;
-@property (nonatomic, strong) UILabel *profileLabel;
-
+//// Handling the view that is used to handle the keyboard...?
+//@property (nonatomic) CGSize kbSize;
+//@property (nonatomic) CGSize tbSize;
+//@property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
+//
+//// All this handles the text input view - Need to do this in code..?
+//@property (nonatomic, weak) IBOutlet UIButton *sendMessageButton;
+//@property (nonatomic, weak) IBOutlet UIBarButtonItem *sendButton;
+//@property (nonatomic, weak) IBOutlet UIView *textViewContainer;
+//@property (nonatomic, weak) IBOutlet UIView *postView;
+//@property (nonatomic, weak) IBOutlet UITextView *messageTextView;
 
 @end
 
-@implementation JJChatCollectionViewController
-
+@implementation JJChatViewController
 
 
 #pragma mark - View Controller Lifecycle
@@ -64,12 +55,10 @@
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
     
-    //    [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
-    UINib *nib = [UINib nibWithNibName:@"JJCollectionViewCell" bundle: [NSBundle bundleForClass:[self class]]];
-    [self.collectionView registerNib:nib forCellWithReuseIdentifier:@"cell"];
-    
-    
-    
+    // TODO: Switch the cell view back to code from the nib?
+    // [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
+    UINib *nib = [UINib nibWithNibName:@"JJCollectionViewCell" bundle: [NSBundle bundleForClass:[JJChatViewController class]]];
+    [self.collectionView registerNib:nib forCellWithReuseIdentifier:@"JJChatCell"];
     
     self.view = self.collectionView;
 }
@@ -82,46 +71,8 @@
 }
 
 
-
-#pragma mark - Messages
-
--(NSString *) randomStringWithLength: (int) len {
-    
-    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
-    
-    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
-    for (int i=0; i<len; i++) {
-        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform((int)[letters length])]];
-    }
-    
-    return randomString;
-}
-
-- (NSArray *)messages
-{
-    if (!_messages) {
-        NSMutableArray *array = [[NSMutableArray alloc]init];
-        int x=0;
-        while (x < 2000) {
-            [array addObject:@{@"content": [self randomStringWithLength:arc4random_uniform(200)], @"read": @(0), @"recipient": @((arc4random() % 2 ? 1 : 0))}];
-            x++;
-        }
-        _messages = array;
-    }
-
-    return _messages;
-}
-
-- (UIFont *)messageFont
-{
-    return [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
-}
-
-
-
-
 #pragma mark - Collection View Delegate
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.messages.count;
@@ -129,86 +80,67 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(JJFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Optimise the rendering here by caching the sizes of the of the rendered views
+    // Optimise the rendering here by caching the sizes of the of the rendered views in a static variable
     static NSMutableDictionary *sizes;
     if (!sizes) {
         sizes = [NSMutableDictionary dictionary];
     }
     
-    // Get the text
-    NSString *text = (NSString*)[[self.messages objectAtIndex:indexPath.row] objectForKey:@"content"];
+    id<JJMessage> message = [self.messages objectAtIndex:indexPath.row];
+    
+    // Get the content of the message
+    NSString *text = message.content;
     
     // If we have already rendered this then return the size
-    NSValue *renderedSize = [sizes objectForKey:[self stringForTextLength:text]];
+    NSValue *renderedSize = [sizes objectForKey:[text keyForOrientation]];
     if (renderedSize) {
          return [renderedSize CGSizeValue];
     }
     
-    // Otherwise we need to render a view and calculate the size of it!
+    // Get the full width of the view
     CGFloat cellWidth = self.collectionView.bounds.size.width;
-    CGRect rect = [text boundingRectWithSize:CGSizeMake(((cellWidth - ((BUBBLE_PADDING * 2) + BUBBLE_FACTOR)) * 0.75), CGFLOAT_MAX)
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes: @{NSFontAttributeName: self.messageFont}
-                                              context:nil];
-
-    CGSize computedSize = CGSizeMake(cellWidth, ceilf(rect.size.height) + (BUBBLE_PADDING * 2));
+    // Get the prefered available width of text, and max height
+    CGSize textSize = CGSizeMake(((cellWidth - ((BUBBLE_PADDING * 2) + BUBBLE_FACTOR)) * 0.75), CGFLOAT_MAX);
+    // Calculate the rect that will contain the text content
+    CGRect textRect = [text boundingRectWithSize:textSize options:NSStringDrawingUsesLineFragmentOrigin attributes: @{NSFontAttributeName: self.messageFont} context:nil];
+    // Calculate the size of the final cell
+    CGSize cellSize = CGSizeMake(cellWidth, ceilf(textRect.size.height) + (BUBBLE_PADDING * 2));
+    // Put the size in the dictionary for caching
+    [sizes setObject:[NSValue valueWithCGSize:cellSize] forKey:[text keyForOrientation]];
     
-    // Add the size to the dictionary
-    [sizes setObject:[NSValue valueWithCGSize:computedSize] forKey:[self stringForTextLength:text]];
-    
-    return computedSize;
+    return cellSize;
 }
-
-- (NSString *)stringForTextLength:(NSString *)text
-{
-    return [NSString stringWithFormat:@"%ld-%@", (long)[[UIApplication sharedApplication] statusBarOrientation], @([text length])];
-}
-
-
-
-
-
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self.collectionView performBatchUpdates:nil completion:nil];
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsZero;
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
     return 0.0;
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
     return 10.0;
 }
 
--(JJCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (JJCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JJChatCell" forIndexPath:indexPath];
     
-    [self configureCell:cell atIndexPath:indexPath];
+    id<JJMessage> message = [self.messages objectAtIndex:indexPath.row];
+    
+    cell.message = message;
     
     return cell;
 }
-
-
-
-- (void)configureCell:(JJCollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    
-    NSDictionary<JJMessage> *message = [self.messages objectAtIndex:indexPath.row];
-    
-    JJCollectionViewCell *bubbleCell = (JJCollectionViewCell *)cell;
-    bubbleCell.message = message;
-}
-
 
 
 

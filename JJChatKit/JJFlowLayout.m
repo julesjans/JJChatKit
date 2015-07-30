@@ -8,7 +8,6 @@
 
 // Exploring Scroll Views in iOS 7
 // https://developer.apple.com/videos/wwdc/2013/
-
 // https://github.com/TeehanLax/UICollectionView-Spring-Demo/pull/3/files
 
 
@@ -17,28 +16,24 @@
 @interface JJFlowLayout ()
 
 @property (nonatomic, strong) UIDynamicAnimator *dynamicAnimator;
-
 @property (nonatomic, strong) NSMutableSet *visibleIndexPathsSet;
-
 @property (nonatomic, assign) CGFloat latestDelta;
-
 @property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation;
 
 @end
+
 
 @implementation JJFlowLayout
 
 
 - (instancetype)init
 {
-    if (!(self = [super init])) return nil;
-    
-    self.scrollDirection = UICollectionViewScrollDirectionVertical;
-    
-    self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
-    
-    self.visibleIndexPathsSet = [NSMutableSet set];
-    
+    self = [super init];
+    if (self) {
+        self.scrollDirection = UICollectionViewScrollDirectionVertical;
+        self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
+        self.visibleIndexPathsSet = [NSMutableSet set];
+    }
     return self;
 }
 

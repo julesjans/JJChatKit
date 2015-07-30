@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JJMessage.h"
 
 
-@interface JJChatCollectionViewController : UIViewController
+@interface JJChatViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *messages;
 
 @property (nonatomic, strong) UIFont *messageFont;
 
 @end
+
+
+
+#warning need to be able to set the configuration of the colours in this controller?

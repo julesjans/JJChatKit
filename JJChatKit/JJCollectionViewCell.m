@@ -1,13 +1,10 @@
-/*
- 
- WMMessageBubbleCell.m
- VoiceCandy
- 
- Chat View Message Bubble
- 
- Copyright 2014 Yousoft Ltd. All rights reserved.
- 
-*/
+//
+//  JJCollectionViewCell.m
+//  JJChatKit
+//
+//  Created by Julian Jans on 23/07/2015.
+//  Copyright (c) 2015 Julian Jans. All rights reserved.
+//
 
 
 #import "JJCollectionViewCell.h"
@@ -35,19 +32,18 @@
 
 
 #pragma mark - Setting the message view
-- (void)setMessage:(id)message
+- (void)setMessage:(id<JJMessage>)message
 {
     _message = message;
 
     // Set whether we are the recipient of the message, will affect the view placement
-    self.recipient = [[message valueForKeyPath:@"recipient"]  boolValue];
+    self.recipient = message.recipient;
     
     // Set the initial colours of the bubble according to the recipient
     [self.messageLabel setTextColor:(self.recipient ? [UIColor fromTextColour] : [UIColor toTextColour])];
     [self.messageLabel setTextAlignment:(self.recipient ? NSTextAlignmentLeft : NSTextAlignmentRight)];
-    [self.messageLabel setText:[message valueForKey:@"content"]];
-    
-    
+    [self.messageLabel setText:message.content];
+
     self.minWidth.constant = BUBBLE_FACTOR;
     
     

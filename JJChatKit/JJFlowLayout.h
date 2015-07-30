@@ -10,5 +10,4 @@
 
 @interface JJFlowLayout : UICollectionViewFlowLayout
 
-
 @end
