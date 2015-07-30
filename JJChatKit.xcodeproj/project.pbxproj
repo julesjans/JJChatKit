@@ -20,6 +20,8 @@
 		845002A11B6A4FA00046C96C /* TextToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8450029E1B6A4FA00046C96C /* TextToolbar.xib */; };
 		8464BF0C1B6A3B7500D501E2 /* NSString+JJChatkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */; };
 		8464BF0D1B6A3B7500D501E2 /* NSString+JJChatkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 8464BF0B1B6A3B7500D501E2 /* NSString+JJChatkit.m */; };
+		8482C7BC1B6ADA15005C8B05 /* UIImage+ImageEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 8482C7BA1B6ADA15005C8B05 /* UIImage+ImageEffects.h */; };
+		8482C7BD1B6ADA15005C8B05 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 8482C7BB1B6ADA15005C8B05 /* UIImage+ImageEffects.m */; };
 		84C60B381B6131170031271F /* NSDate+JJChatKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B361B6131170031271F /* NSDate+JJChatKit.h */; };
 		84C60B391B6131170031271F /* NSDate+JJChatKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C60B371B6131170031271F /* NSDate+JJChatKit.m */; };
 		84C60B3B1B6133E40031271F /* JJMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B3A1B6133E40031271F /* JJMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -58,6 +60,8 @@
 		8450029E1B6A4FA00046C96C /* TextToolbar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextToolbar.xib; sourceTree = "<group>"; };
 		8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JJChatkit.h"; sourceTree = "<group>"; };
 		8464BF0B1B6A3B7500D501E2 /* NSString+JJChatkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JJChatkit.m"; sourceTree = "<group>"; };
+		8482C7BA1B6ADA15005C8B05 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		8482C7BB1B6ADA15005C8B05 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		84C60B361B6131170031271F /* NSDate+JJChatKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+JJChatKit.h"; sourceTree = "<group>"; };
 		84C60B371B6131170031271F /* NSDate+JJChatKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+JJChatKit.m"; sourceTree = "<group>"; };
 		84C60B3A1B6133E40031271F /* JJMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJMessage.h; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 		84C60B481B616ED00031271F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8482C7BA1B6ADA15005C8B05 /* UIImage+ImageEffects.h */,
+				8482C7BB1B6ADA15005C8B05 /* UIImage+ImageEffects.m */,
 				84C60B361B6131170031271F /* NSDate+JJChatKit.h */,
 				84C60B371B6131170031271F /* NSDate+JJChatKit.m */,
 				84C60B401B6138DB0031271F /* UIColor+JJChatKit.h */,
@@ -199,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C60B461B6164B40031271F /* JJBubble.h in Headers */,
+				8482C7BC1B6ADA15005C8B05 /* UIImage+ImageEffects.h in Headers */,
 				8450029F1B6A4FA00046C96C /* TextToolbar.h in Headers */,
 				842F831D1B5FC35200E9A9A6 /* JJCollectionViewCell.h in Headers */,
 				84C60B381B6131170031271F /* NSDate+JJChatKit.h in Headers */,
@@ -314,6 +321,7 @@
 				84C60B501B61ABF20031271F /* JJFlowLayout.m in Sources */,
 				842F831E1B5FC35200E9A9A6 /* JJCollectionViewCell.m in Sources */,
 				84C60B431B6138DB0031271F /* UIColor+JJChatKit.m in Sources */,
+				8482C7BD1B6ADA15005C8B05 /* UIImage+ImageEffects.m in Sources */,
 				8464BF0D1B6A3B7500D501E2 /* NSString+JJChatkit.m in Sources */,
 				84C60B391B6131170031271F /* NSDate+JJChatKit.m in Sources */,
 				84C60B471B6164B40031271F /* JJBubble.m in Sources */,

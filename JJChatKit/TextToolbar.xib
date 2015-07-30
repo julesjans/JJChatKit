@@ -11,7 +11,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJo-H7-paU">
-                    <rect key="frame" x="538" y="9" width="54" height="30"/>
+                    <rect key="frame" x="538" y="285" width="54" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="36" id="5R8-UM-T6e"/>
                         <constraint firstAttribute="width" constant="54" id="9rs-Qq-Mbn"/>
@@ -25,7 +25,7 @@
                         </mask>
                     </variation>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Text goes in here..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yT9-gO-vEa">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Text goes in here..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yT9-gO-vEa">
                     <rect key="frame" x="8" y="8" width="522" height="584"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -38,9 +38,15 @@
                 <constraint firstItem="yT9-gO-vEa" firstAttribute="leading" secondItem="R0F-zz-tdZ" secondAttribute="leading" constant="8" id="Rcx-Ps-2IF"/>
                 <constraint firstItem="KJo-H7-paU" firstAttribute="top" secondItem="R0F-zz-tdZ" secondAttribute="top" constant="9" id="fYJ-yA-pjf"/>
                 <constraint firstAttribute="bottom" secondItem="yT9-gO-vEa" secondAttribute="bottom" constant="8" id="kxD-DX-4cA"/>
+                <constraint firstItem="KJo-H7-paU" firstAttribute="centerY" secondItem="yT9-gO-vEa" secondAttribute="centerY" id="prj-JC-Nl1"/>
                 <constraint firstItem="yT9-gO-vEa" firstAttribute="top" secondItem="R0F-zz-tdZ" secondAttribute="top" constant="8" id="vIl-HY-L1N"/>
                 <constraint firstAttribute="trailing" secondItem="KJo-H7-paU" secondAttribute="trailing" constant="8" id="xyJ-MQ-QCZ"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="fYJ-yA-pjf"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="postButton" destination="KJo-H7-paU" id="obh-lj-QsG"/>
                 <outlet property="textView" destination="yT9-gO-vEa" id="daE-bk-HuF"/>

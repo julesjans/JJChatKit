@@ -31,8 +31,8 @@
 
 
 //// Handling the view that is used to handle the keyboard...?
-@property (nonatomic) CGSize kbSize;
-@property (nonatomic) CGSize cvSize;
+@property (nonatomic) CGSize cvSize, kbSize;
+
 //@property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
 //
 //// All this handles the text input view - Need to do this in code..?
@@ -74,6 +74,8 @@
     
     self.view = self.collectionView;
     
+    
+    
     // Configure the input selection view..?
     
     
@@ -108,11 +110,21 @@
 
 
 
+
+#warning there are some messages missing in the rotation...?
+
+
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+      
+        // Animate something in here?
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self.collectionView.collectionViewLayout invalidateLayout];
+    }];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.collectionView.collectionViewLayout invalidateLayout];
-    [self.collectionView reloadData];
 }
 
 
@@ -178,47 +190,16 @@
 
 
 
-
-
-
-
-
-
-
-
+#pragma mark - Housekeeping
 
 - (void)dismissKeyboard
 {
     [self.textView resignFirstResponder];
 }
 
-
-
-
-
-
-
-
-
-
 - (BOOL)canBecomeFirstResponder {
     return YES;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -261,6 +242,8 @@
 
 
 
+#warning Need to set the intitial view to take in account the message view at the bottom?
+
 - (void)keyboardDidShow:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
@@ -299,16 +282,18 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-//    CGFloat fixedWidth = textView.frame.size.width;
-//    CGSize newSize = [textView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
-//  
+    [self.textToolBar setHeight:MIN(textView.contentSize.height + 16, 160)];
+    [self scrollToCaretInTextView:textView animated:NO];
+}
 
-    
-    [self.textToolBar setHeight:textView.contentSize.height + 32];
-    
-    
-    
 
+// http://stackoverflow.com/questions/22315755/ios-7-1-uitextview-still-not-scrolling-to-cursor-caret-after-new-line
+- (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated {
+    
+#warning this still scrolls if there is a newline character..?
+    CGRect rect = [textView caretRectForPosition:textView.selectedTextRange.end];
+    rect.size.height += textView.textContainerInset.bottom;
+    [textView scrollRectToVisible:rect animated:animated];
 }
 
 
@@ -326,7 +311,13 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self.textView resignFirstResponder];
+    
+    if ([scrollView isEqual:self.collectionView]) {
+        [self.textView resignFirstResponder];
+    }
+    
+    
+    
 }
 
 

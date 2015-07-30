@@ -24,18 +24,18 @@
 
     [self.postButton setTintColor:[UIColor toBackgroundColour]];
 
-    [self.textView setContentInset:UIEdgeInsetsZero];
-    
+    [self.textView.layer setCornerRadius:6.0];
    
+    
 
     
-    [self setHeight:66];
+    [self setHeight:49];
     
     
 //    [self setHeight:self.textView.contentSize.height + 16 + self.textView.textContainerInset.top + self.textView.textContainerInset.bottom];
 
     
-    self.backgroundColor = [UIColor lightGrayColor];
+    self.backgroundColor = [UIColor fromBackgroundColour];
 }
 
 - (void)setHeight:(CGFloat)height
