@@ -33,6 +33,7 @@
         self.scrollDirection = UICollectionViewScrollDirectionVertical;
         self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
         self.visibleIndexPathsSet = [NSMutableSet set];
+        self.sectionInset = UIEdgeInsetsMake(8.0, 0, 8.0, 0);
     }
     return self;
 }

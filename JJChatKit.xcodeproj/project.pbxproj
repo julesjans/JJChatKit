@@ -15,6 +15,9 @@
 		842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F83141B5FC24000E9A9A6 /* JJChatViewController.m */; };
 		842F831D1B5FC35200E9A9A6 /* JJCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */; };
 		842F831E1B5FC35200E9A9A6 /* JJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F831C1B5FC35200E9A9A6 /* JJCollectionViewCell.m */; };
+		8450029F1B6A4FA00046C96C /* TextToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 8450029C1B6A4FA00046C96C /* TextToolbar.h */; };
+		845002A01B6A4FA00046C96C /* TextToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8450029D1B6A4FA00046C96C /* TextToolbar.m */; };
+		845002A11B6A4FA00046C96C /* TextToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8450029E1B6A4FA00046C96C /* TextToolbar.xib */; };
 		8464BF0C1B6A3B7500D501E2 /* NSString+JJChatkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */; };
 		8464BF0D1B6A3B7500D501E2 /* NSString+JJChatkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 8464BF0B1B6A3B7500D501E2 /* NSString+JJChatkit.m */; };
 		84C60B381B6131170031271F /* NSDate+JJChatKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B361B6131170031271F /* NSDate+JJChatKit.h */; };
@@ -50,6 +53,9 @@
 		842F83141B5FC24000E9A9A6 /* JJChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJChatViewController.m; sourceTree = "<group>"; };
 		842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJCollectionViewCell.h; sourceTree = "<group>"; };
 		842F831C1B5FC35200E9A9A6 /* JJCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJCollectionViewCell.m; sourceTree = "<group>"; };
+		8450029C1B6A4FA00046C96C /* TextToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextToolbar.h; sourceTree = "<group>"; };
+		8450029D1B6A4FA00046C96C /* TextToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextToolbar.m; sourceTree = "<group>"; };
+		8450029E1B6A4FA00046C96C /* TextToolbar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextToolbar.xib; sourceTree = "<group>"; };
 		8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JJChatkit.h"; sourceTree = "<group>"; };
 		8464BF0B1B6A3B7500D501E2 /* NSString+JJChatkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JJChatkit.m"; sourceTree = "<group>"; };
 		84C60B361B6131170031271F /* NSDate+JJChatKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+JJChatKit.h"; sourceTree = "<group>"; };
@@ -147,6 +153,9 @@
 				841FD48E1B67C901004B89C7 /* JJCollectionViewCell.xib */,
 				84C60B441B6164B40031271F /* JJBubble.h */,
 				84C60B451B6164B40031271F /* JJBubble.m */,
+				8450029C1B6A4FA00046C96C /* TextToolbar.h */,
+				8450029D1B6A4FA00046C96C /* TextToolbar.m */,
+				8450029E1B6A4FA00046C96C /* TextToolbar.xib */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -190,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C60B461B6164B40031271F /* JJBubble.h in Headers */,
+				8450029F1B6A4FA00046C96C /* TextToolbar.h in Headers */,
 				842F831D1B5FC35200E9A9A6 /* JJCollectionViewCell.h in Headers */,
 				84C60B381B6131170031271F /* NSDate+JJChatKit.h in Headers */,
 				842F82B31B5FC0B500E9A9A6 /* JJChatKit.h in Headers */,
@@ -280,6 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845002A11B6A4FA00046C96C /* TextToolbar.xib in Resources */,
 				841FD48F1B67C901004B89C7 /* JJCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845002A01B6A4FA00046C96C /* TextToolbar.m in Sources */,
 				842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */,
 				84C60B501B61ABF20031271F /* JJFlowLayout.m in Sources */,
 				842F831E1B5FC35200E9A9A6 /* JJCollectionViewCell.m in Sources */,

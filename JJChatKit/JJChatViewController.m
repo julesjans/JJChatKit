@@ -13,19 +13,26 @@
 #import "JJBubble.h"
 
 
-@interface JJChatViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate>
+#import "TextToolbar.h"
+
+@interface JJChatViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
 // Collection View implementation
 @property (nonatomic, strong) JJFlowLayout *flowLayout;
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-
-
 #warning need to clear this controller up to include the text input view...
 
+@property (nonatomic, readwrite, retain) UIView *inputAccessoryView;
+
+
+@property (nonatomic, strong) TextToolbar *textToolBar;
+@property (nonatomic, strong) UITextView *textView;
+
+
 //// Handling the view that is used to handle the keyboard...?
-//@property (nonatomic) CGSize kbSize;
-//@property (nonatomic) CGSize tbSize;
+@property (nonatomic) CGSize kbSize;
+@property (nonatomic) CGSize cvSize;
 //@property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
 //
 //// All this handles the text input view - Need to do this in code..?
@@ -45,6 +52,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     self.flowLayout = [[JJFlowLayout alloc] init];
     
@@ -61,7 +73,40 @@
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:@"JJChatCell"];
     
     self.view = self.collectionView;
+    
+    // Configure the input selection view..?
+    
+    
+    
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    
+   
+    
+    self.textToolBar = (TextToolbar *)[[[NSBundle bundleForClass:[TextToolbar class]] loadNibNamed:@"TextToolbar" owner:self options:nil] lastObject];
+    
+    self.inputAccessoryView = self.textToolBar;
+    
+    self.textView = self.textToolBar.textView;
+    self.textView.delegate = self;
+    
+    
+    
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self scrollToBottomAnimated:YES];
+    
+    self.cvSize = self.collectionView.bounds.size;
+}
+
+
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
@@ -116,21 +161,6 @@
     [self.collectionView performBatchUpdates:nil completion:nil];
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsZero;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 0.0;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 10.0;
-}
-
 - (JJCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JJChatCell" forIndexPath:indexPath];
@@ -157,6 +187,10 @@
 
 
 
+- (void)dismissKeyboard
+{
+    [self.textView resignFirstResponder];
+}
 
 
 
@@ -167,7 +201,9 @@
 
 
 
-
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
 
 
 
@@ -203,14 +239,13 @@
 //    return [NSString stringWithFormat:@"Message"];
 //}
 //
-//// Clear out the placeholder when editing the text
+////// Clear out the placeholder when editing the text
 //-(void)textViewDidBeginEditing:(UITextView *)textView
 //{
-//    if ([textView.text isEqualToString:[self placeholderText]] || [textView.text isEqualToString:@""]) {
-//        textView.text = @"";
-//        [self.messageTextView setTextColor:[UIColor blackColor]];
-//    }
-//    [self toggleSendButton];
+//
+//    
+//    
+//    
 //}
 //
 //// Put the placeholder back if there is no text
@@ -223,85 +258,87 @@
 //    [self toggleSendButton];
 //}
 //
-//- (void)keyboardDidShow:(NSNotification*)aNotification
-//{
-//    // Get the height of the keyboard
-//    NSDictionary* info = [aNotification userInfo];
-//    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-//    
-//    // Get the new position to move the text entry field.
-//    CGRect frame = self.postView.frame;
-//    frame.origin.y = (self.view.bounds.size.height - self.kbSize.height) - frame.size.height;
-//    self.postView.frame = frame;
-//    
-//    // Now resize the table view to take into account the view
-//    frame = self.tableView.frame;
-//    frame.size.height = (self.tbSize.height - self.postView.frame.size.height) - self.kbSize.height;
-//    self.tableView.frame = frame;
-//    
+
+
+
+- (void)keyboardDidShow:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGRect frame = self.collectionView.frame;
+    frame.size.height = self.cvSize.height - self.kbSize.height;
+    self.collectionView.frame = frame;
+    
+    [self scrollToBottomAnimated:YES];
+}
+
+- (void)keyboardWillHide:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGRect frame = self.collectionView.frame;
+    frame.size.height = (self.cvSize.height - self.textToolBar.frame.size.height);
+    self.collectionView.frame = frame;
+
 //    [self scrollToBottomAnimated:YES];
-//}
+}
+
+
+
+
+
+
+
+
 //
-//- (void)keyboardWillHide:(NSNotification*)aNotification
-//{
-//    self.kbSize = CGSizeMake(0, 0);
-//    
-//    CGRect frame = self.postView.frame;
-//    frame.origin.y = (self.view.bounds.size.height) - frame.size.height;
-//    self.postView.frame = frame;
-//    
-//    frame = self.tableView.frame;
-//    frame.size.height = (self.tbSize.height - self.postView.frame.size.height);
-//    self.tableView.frame = frame;
-//    
-//    [self scrollToBottomAnimated:YES];
-//}
-//
-//// Will resize the text view to span multiple lines
-//- (void)textViewDidChange:(UITextView *)textView
-//{
-//    [self toggleSendButton];
-//    
-//    textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-//    
-//    float height = textView.contentSize.height - 44;
-//    
-//    if (height < 0) {
-//        [self resetMessageContent];
-//        return;
-//    }
-//    
-//    // Make the text entry view and the table view meet in the middle
-//    if (height > 0 && height < self.tableView.frame.size.height) {
-//        
-//        // This is the textview
-//        CGRect textFrame = textView.frame;
-//        textFrame.size.height = textView.contentSize.height;
-//        textView.frame = textFrame;
-//        
-//        // The frame of the container
-//        CGRect textContainerFrame = self.textViewContainer.frame;
-//        textContainerFrame.size.height = self.messageTextView.bounds.size.height - (self.textViewContainer.layer.borderWidth *2);
-//        self.textViewContainer.frame = textContainerFrame;
-//        
-//        // This is enlarging the entire view
-//        CGRect frame = self.postView.frame;
-//        frame.size.height = 54 + height;
-//        frame.origin.y = (self.postView.superview.frame.size.height - self.kbSize.height) - frame.size.height;
-//        self.postView.frame = frame;
-//        
-//        CGRect tableFrame;
-//        tableFrame = self.tableView.frame;
-//        tableFrame.size.height = (self.tableView.superview.frame.size.height - self.kbSize.height) - frame.size.height;
-//        self.tableView.frame = tableFrame;
-//        
-//        [self scrollToBottomAnimated:YES];
-//        [textView scrollRangeToVisible:NSMakeRange([textView.text length], 0)];
-//    } else {
-//        [self scrollToBottomAnimated:YES];
-//        [textView scrollRangeToVisible:NSMakeRange([textView.text length], 0)];
-//    }
-//}
+// Will resize the text view to span multiple lines
+
+
+
+
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+//    CGFloat fixedWidth = textView.frame.size.width;
+//    CGSize newSize = [textView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+//  
+
+    
+    [self.textToolBar setHeight:textView.contentSize.height + 32];
+    
+    
+    
+
+}
+
+
+
+
+
+- (void)scrollToBottomAnimated:(BOOL)animated
+{
+    CGPoint bottomOffset = CGPointMake(0, self.collectionView.contentSize.height - self.collectionView.bounds.size.height);
+    if ( bottomOffset.y > 0 ) {
+        [self.collectionView setContentOffset:bottomOffset animated:animated];
+    }
+}
+
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.textView resignFirstResponder];
+}
+
+
+
+
+
+#warning need to do all the delegate methods for handling the text input
+
+
+
+
+
 //
 //// Reset the text box views to their normal size
 //- (void)resetMessageContent
