@@ -15,27 +15,36 @@
 
 #import "TextToolbar.h"
 
+// Issue one:
+// Sometimes losing the items when the device rotates.
+
+// Issue two:
+// There is a visible jar when the text view returns on the second line, probably to do with the scroll to rect method
+
+// Issue three:
+// When can the initial scroll to the bottom view take place?, viewWillAppear seems to be too early?
+
+// Issue four:
+// Need to fix where the colours are being set
+
+
+
 @interface JJChatViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
 // Collection View implementation
 @property (nonatomic, strong) JJFlowLayout *flowLayout;
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-#warning need to clear this controller up to include the text input view...
-
-@property (nonatomic, readwrite, retain) UIView *inputAccessoryView;
-
-
+/// Handling of the text input view embedded in the inputAccessoryView
+@property (nonatomic, strong) UIView *inputAccessoryView;
 @property (nonatomic, strong) TextToolbar *textToolBar;
-@property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, weak) UITextView *textView;
 
+/// Placeholders for sizing the view according to the keyboard
+@property (nonatomic) CGSize kbSize;
 
-//// Handling the view that is used to handle the keyboard...?
-@property (nonatomic) CGSize cvSize, kbSize;
-
+// Is this all to be binned?
 //@property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
-//
-//// All this handles the text input view - Need to do this in code..?
 //@property (nonatomic, weak) IBOutlet UIButton *sendMessageButton;
 //@property (nonatomic, weak) IBOutlet UIBarButtonItem *sendButton;
 //@property (nonatomic, weak) IBOutlet UIView *textViewContainer;
@@ -53,78 +62,72 @@
 {
     [super viewDidLoad];
     
-    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-    self.flowLayout = [[JJFlowLayout alloc] init];
+    // Create the view for text input
+    self.textToolBar = (TextToolbar *)[[[NSBundle bundleForClass:[TextToolbar class]] loadNibNamed:@"TextToolbar" owner:self options:nil] lastObject];
+    self.inputAccessoryView = self.textToolBar;
+    self.textView = self.textToolBar.textView;
+    self.textView.delegate = self;
     
+    // Create the collection view with the custom layout
+    self.flowLayout = [[JJFlowLayout alloc] init];
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
-    
-    // TODO: Switch the cell view back to code from the nib?
-    // [self.collectionView registerClass:[JJCollectionViewCell class]  forCellWithReuseIdentifier:@"cell"];
-    UINib *nib = [UINib nibWithNibName:@"JJCollectionViewCell" bundle: [NSBundle bundleForClass:[JJChatViewController class]]];
-    [self.collectionView registerNib:nib forCellWithReuseIdentifier:@"JJChatCell"];
-    
-    self.view = self.collectionView;
-    
-    
-    
-    // Configure the input selection view..?
-    
-    
-    
-    
-    
+    [self.collectionView registerNib:[UINib nibWithNibName:@"JJCollectionViewCell" bundle: [NSBundle bundleForClass:[JJChatViewController class]]] forCellWithReuseIdentifier:@"JJChatCell"];
+    self.collectionView.frame = self.view.bounds;
+    [self.view addSubview:self.collectionView];
+
+    // Gestures to handle the keyboard dismiss
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    
     [self.view addGestureRecognizer:tap];
-    
-   
-    
-    self.textToolBar = (TextToolbar *)[[[NSBundle bundleForClass:[TextToolbar class]] loadNibNamed:@"TextToolbar" owner:self options:nil] lastObject];
-    
-    self.inputAccessoryView = self.textToolBar;
-    
-    self.textView = self.textToolBar.textView;
-    self.textView.delegate = self;
-    
-    
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self scrollToBottomAnimated:NO];
     [super viewDidAppear:animated];
-    
-    [self scrollToBottomAnimated:YES];
-    
-    self.cvSize = self.collectionView.bounds.size;
 }
-
-
-
-
-#warning there are some messages missing in the rotation...?
-
-
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+#warning Is this expensive?
+    // Seems to be the only way to get the transitions to work?
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-      
-        // Animate something in here?
+        
+        [self.flowLayout invalidateLayout];
+        
+        CGRect frame = self.view.bounds;
+        self.collectionView.frame = frame;
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [self.collectionView.collectionViewLayout invalidateLayout];
+        
+        [self.flowLayout invalidateLayout];
+        
+        CGRect frame = self.view.bounds;
+        self.collectionView.frame = frame;
+
     }];
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
+
+#pragma mark - Attribute Housekeeping
+
+- (void)dismissKeyboard
+{
+    [self.textView resignFirstResponder];
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
 
 
@@ -168,11 +171,6 @@
     return cellSize;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self.collectionView performBatchUpdates:nil completion:nil];
-}
-
 - (JJCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JJChatCell" forIndexPath:indexPath];
@@ -185,26 +183,51 @@
 }
 
 
+#pragma mark - Keyboard handling
 
-
-
-
-
-#pragma mark - Housekeeping
-
-- (void)dismissKeyboard
+- (void)keyboardDidShow:(NSNotification*)aNotification
 {
-    [self.textView resignFirstResponder];
+    NSDictionary* info = [aNotification userInfo];
+    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGRect frame = self.collectionView.frame;
+    frame.size.height = self.view.bounds.size.height - self.kbSize.height;
+    self.collectionView.frame = frame;
 }
 
-- (BOOL)canBecomeFirstResponder {
-    return YES;
+- (void)keyboardWillHide:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGRect frame = self.collectionView.frame;
+    frame.size.height = (self.view.bounds.size.height - self.textToolBar.frame.size.height);
+    self.collectionView.frame = frame;
 }
 
 
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    
+    // Sort out the magick numbers !
+    
+    [self.textToolBar setHeight:MIN(textView.contentSize.height + 9, 160)];
+    [self scrollToCaretInTextView:textView animated:NO];
+    
+    // TODO: Add a listener to move the scroll view up with the text input..?
+    [self scrollToBottomAnimated:YES];
+}
+
+// http://stackoverflow.com/questions/22315755/ios-7-1-uitextview-still-not-scrolling-to-cursor-caret-after-new-line
+- (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated {
+    
+#warning this still scrolls if there is a newline character..?
+    CGRect rect = [textView caretRectForPosition:textView.selectedTextRange.end];
+    rect.size.height += textView.textContainerInset.bottom;
+    [textView scrollRectToVisible:rect animated:animated];
+}
 
 
-#pragma mark - Message send box
 //// Sets the enabled status of the send button, according to the content of the text view
 //- (void)toggleSendButton
 //{
@@ -220,15 +243,6 @@
 //    return [NSString stringWithFormat:@"Message"];
 //}
 //
-////// Clear out the placeholder when editing the text
-//-(void)textViewDidBeginEditing:(UITextView *)textView
-//{
-//
-//    
-//    
-//    
-//}
-//
 //// Put the placeholder back if there is no text
 //-(void)textViewDidEndEditing:(UITextView *)textView
 //{
@@ -242,63 +256,7 @@
 
 
 
-#warning Need to set the intitial view to take in account the message view at the bottom?
-
-- (void)keyboardDidShow:(NSNotification*)aNotification
-{
-    NSDictionary* info = [aNotification userInfo];
-    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    CGRect frame = self.collectionView.frame;
-    frame.size.height = self.cvSize.height - self.kbSize.height;
-    self.collectionView.frame = frame;
-    
-    [self scrollToBottomAnimated:YES];
-}
-
-- (void)keyboardWillHide:(NSNotification*)aNotification
-{
-    NSDictionary* info = [aNotification userInfo];
-    self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    CGRect frame = self.collectionView.frame;
-    frame.size.height = (self.cvSize.height - self.textToolBar.frame.size.height);
-    self.collectionView.frame = frame;
-
-//    [self scrollToBottomAnimated:YES];
-}
-
-
-
-
-
-
-
-
-//
-// Will resize the text view to span multiple lines
-
-
-
-
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    [self.textToolBar setHeight:MIN(textView.contentSize.height + 16, 160)];
-    [self scrollToCaretInTextView:textView animated:NO];
-}
-
-
-// http://stackoverflow.com/questions/22315755/ios-7-1-uitextview-still-not-scrolling-to-cursor-caret-after-new-line
-- (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated {
-    
-#warning this still scrolls if there is a newline character..?
-    CGRect rect = [textView caretRectForPosition:textView.selectedTextRange.end];
-    rect.size.height += textView.textContainerInset.bottom;
-    [textView scrollRectToVisible:rect animated:animated];
-}
-
-
-
-
+#pragma mark - UIScrollViewDelegate & Actions
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
@@ -308,78 +266,11 @@
     }
 }
 
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    
     if ([scrollView isEqual:self.collectionView]) {
         [self.textView resignFirstResponder];
     }
-    
-    
-    
 }
-
-
-
-
-
-#warning need to do all the delegate methods for handling the text input
-
-
-
-
-
-//
-//// Reset the text box views to their normal size
-//- (void)resetMessageContent
-//{
-//    CGRect textFrame = self.textViewContainer.frame;
-//    textFrame.size.height = 36;
-//    self.textViewContainer.frame = textFrame;
-//    
-//    self.messageTextView.frame = self.textViewContainer.bounds;
-//    
-//    CGRect frame = self.postView.frame;
-//    frame.size.height = 44;
-//    frame.origin.y = (self.postView.superview.frame.size.height - self.kbSize.height) - frame.size.height;
-//    self.postView.frame = frame;
-//    
-//    CGRect tableFrame;
-//    tableFrame = self.tableView.frame;
-//    tableFrame.size.height = (self.tableView.superview.frame.size.height - self.kbSize.height) - frame.size.height;
-//    self.tableView.frame = tableFrame;
-//}
-//
-//- (IBAction)dismissKeyboard:(id)sender
-//{
-//    [self.messageTextView resignFirstResponder];
-//    [self updateTable];
-//}
-//
-//// Gesture to be placed in the view to handle the tap screen to dismiss keyboard
-//- (UITapGestureRecognizer *)resetKeyboardGesture
-//{
-//    if (!_resetKeyboardGesture) {
-//        _resetKeyboardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
-//        _resetKeyboardGesture.delegate = self;
-//    }
-//    return _resetKeyboardGesture;
-//}
-//
-//// Mask the tap screen gesture over the play button
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-//{
-//    if ([touch.view isEqual:self.playButton]) {
-//        return NO;
-//    } else {
-//        return YES;
-//    }
-//}
-
-
-
-
-
 
 @end

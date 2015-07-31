@@ -70,16 +70,14 @@
             break;
     }
     
-    
-    
-     self.bubbleView.bubblePosition = bubblePosition;
+
+    self.bubbleView.bubblePosition = bubblePosition;
     
     [self removeConstraints:self.alignmentConstraints];
     
     self.alignmentConstraints = [NSLayoutConstraint constraintsWithVisualFormat:visualFormat options:0 metrics:@{@"width":@(self.bounds.size.width * MAX_SCALE_OF_MESSAGE)} views:@{@"bubbleView": self.bubbleView}];
     
     [self addConstraints:self.alignmentConstraints];
-
 }
 
 @end

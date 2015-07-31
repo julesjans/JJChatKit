@@ -27,4 +27,12 @@
     return [UIColor whiteColor];
 }
 
++ (UIColor *)inputViewColor {
+    return [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1.0];
+}
+
++ (UIColor *)inputViewBorderColor {
+    return [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+}
+
 @end

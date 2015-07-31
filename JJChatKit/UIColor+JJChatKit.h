@@ -18,4 +18,8 @@
 
 + (UIColor *)toTextColour;
 
++ (UIColor *)inputViewColor;
+
++ (UIColor *)inputViewBorderColor;
+
 @end

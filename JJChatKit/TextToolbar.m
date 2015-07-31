@@ -21,21 +21,24 @@
 - (void)awakeFromNib {
  
     [super awakeFromNib];
-
+    
+    self.backgroundColor = [UIColor inputViewColor];
+    self.clipsToBounds = YES;
+    
+    CALayer *rightBorder = [CALayer layer];
+    rightBorder.backgroundColor = [UIColor inputViewBorderColor].CGColor;
+    rightBorder.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
+    [self.layer addSublayer:rightBorder];
+    
     [self.postButton setTintColor:[UIColor toBackgroundColour]];
 
+    self.textView.contentInset = UIEdgeInsetsMake(-3, 0, -4, 0);
+    
+    
     [self.textView.layer setCornerRadius:6.0];
+
    
-    
-
-    
     [self setHeight:49];
-    
-    
-//    [self setHeight:self.textView.contentSize.height + 16 + self.textView.textContainerInset.top + self.textView.textContainerInset.bottom];
-
-    
-    self.backgroundColor = [UIColor fromBackgroundColour];
 }
 
 - (void)setHeight:(CGFloat)height
@@ -49,38 +52,11 @@
 {
     [super updateConstraints];
     
-    
-    
-    
-    
-    
+    #warning This is brittle, and relies on the OS
     NSLayoutConstraint *constraint = (NSLayoutConstraint *)[self.constraints lastObject];
-    
-    
     constraint.constant = self.desiredHeight;
-    
-    
 }
 
 
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
