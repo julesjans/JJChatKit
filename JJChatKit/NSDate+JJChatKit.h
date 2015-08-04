@@ -15,20 +15,20 @@
 
 @interface NSDate (JJChatKit)
 
-// Converts the date string from the server into an NSDate object
-+ (NSDate *)dateFromServerDate:(NSString*)serverDate;
-
-// Formats the date object into a readable string (UTC)
-+ (NSString *)humanStringFromDate:(NSDate *)date;
-
-// To capture the user's birthday if needed
-+ (NSString *)birthdayStringFromDate:(NSDate *)date;
-
-// Formats the date object into a readable string (UTC)
-+ (NSString *)messageTimeString:(NSDate *)date;
-
-// Get a date in the past
-- (NSDate *)dateYearsAgo:(NSUInteger)yearsAgo;
+//// Converts the date string from the server into an NSDate object
+//+ (NSDate *)dateFromServerDate:(NSString*)serverDate;
+//
+//// Formats the date object into a readable string (UTC)
+//+ (NSString *)humanStringFromDate:(NSDate *)date;
+//
+//// To capture the user's birthday if needed
+//+ (NSString *)birthdayStringFromDate:(NSDate *)date;
+//
+//// Formats the date object into a readable string (UTC)
+//+ (NSString *)messageTimeString:(NSDate *)date;
+//
+//// Get a date in the past
+//- (NSDate *)dateYearsAgo:(NSUInteger)yearsAgo;
 
 
 @end

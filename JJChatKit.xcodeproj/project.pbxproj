@@ -15,9 +15,9 @@
 		842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F83141B5FC24000E9A9A6 /* JJChatViewController.m */; };
 		842F831D1B5FC35200E9A9A6 /* JJCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */; };
 		842F831E1B5FC35200E9A9A6 /* JJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F831C1B5FC35200E9A9A6 /* JJCollectionViewCell.m */; };
-		8450029F1B6A4FA00046C96C /* TextToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 8450029C1B6A4FA00046C96C /* TextToolbar.h */; };
-		845002A01B6A4FA00046C96C /* TextToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8450029D1B6A4FA00046C96C /* TextToolbar.m */; };
-		845002A11B6A4FA00046C96C /* TextToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8450029E1B6A4FA00046C96C /* TextToolbar.xib */; };
+		8450029F1B6A4FA00046C96C /* JJTextToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 8450029C1B6A4FA00046C96C /* JJTextToolbar.h */; };
+		845002A01B6A4FA00046C96C /* JJTextToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8450029D1B6A4FA00046C96C /* JJTextToolbar.m */; };
+		845002A11B6A4FA00046C96C /* JJTextToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8450029E1B6A4FA00046C96C /* JJTextToolbar.xib */; };
 		8464BF0C1B6A3B7500D501E2 /* NSString+JJChatkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */; };
 		8464BF0D1B6A3B7500D501E2 /* NSString+JJChatkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 8464BF0B1B6A3B7500D501E2 /* NSString+JJChatkit.m */; };
 		84C60B381B6131170031271F /* NSDate+JJChatKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C60B361B6131170031271F /* NSDate+JJChatKit.h */; };
@@ -53,9 +53,9 @@
 		842F83141B5FC24000E9A9A6 /* JJChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJChatViewController.m; sourceTree = "<group>"; };
 		842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJCollectionViewCell.h; sourceTree = "<group>"; };
 		842F831C1B5FC35200E9A9A6 /* JJCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJCollectionViewCell.m; sourceTree = "<group>"; };
-		8450029C1B6A4FA00046C96C /* TextToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextToolbar.h; sourceTree = "<group>"; };
-		8450029D1B6A4FA00046C96C /* TextToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextToolbar.m; sourceTree = "<group>"; };
-		8450029E1B6A4FA00046C96C /* TextToolbar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextToolbar.xib; sourceTree = "<group>"; };
+		8450029C1B6A4FA00046C96C /* JJTextToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JJTextToolbar.h; sourceTree = "<group>"; };
+		8450029D1B6A4FA00046C96C /* JJTextToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JJTextToolbar.m; sourceTree = "<group>"; };
+		8450029E1B6A4FA00046C96C /* JJTextToolbar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JJTextToolbar.xib; sourceTree = "<group>"; };
 		8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JJChatkit.h"; sourceTree = "<group>"; };
 		8464BF0B1B6A3B7500D501E2 /* NSString+JJChatkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JJChatkit.m"; sourceTree = "<group>"; };
 		84C60B361B6131170031271F /* NSDate+JJChatKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+JJChatKit.h"; sourceTree = "<group>"; };
@@ -111,9 +111,9 @@
 			children = (
 				842F82B21B5FC0B500E9A9A6 /* JJChatKit.h */,
 				84C60B3A1B6133E40031271F /* JJMessage.h */,
-				849A793F1B6A35E600AC2184 /* View Controller */,
-				849A793E1B6A35CC00AC2184 /* Collection View Layout */,
-				849A793D1B6A35AE00AC2184 /* Cell */,
+				849A793F1B6A35E600AC2184 /* Controller */,
+				849A793E1B6A35CC00AC2184 /* Layout */,
+				849A793D1B6A35AE00AC2184 /* Views */,
 				84C60B481B616ED00031271F /* Helpers */,
 				842F82B01B5FC0B500E9A9A6 /* Supporting Files */,
 			);
@@ -145,7 +145,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		849A793D1B6A35AE00AC2184 /* Cell */ = {
+		849A793D1B6A35AE00AC2184 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */,
@@ -153,29 +153,29 @@
 				841FD48E1B67C901004B89C7 /* JJCollectionViewCell.xib */,
 				84C60B441B6164B40031271F /* JJBubble.h */,
 				84C60B451B6164B40031271F /* JJBubble.m */,
-				8450029C1B6A4FA00046C96C /* TextToolbar.h */,
-				8450029D1B6A4FA00046C96C /* TextToolbar.m */,
-				8450029E1B6A4FA00046C96C /* TextToolbar.xib */,
+				8450029C1B6A4FA00046C96C /* JJTextToolbar.h */,
+				8450029D1B6A4FA00046C96C /* JJTextToolbar.m */,
+				8450029E1B6A4FA00046C96C /* JJTextToolbar.xib */,
 			);
-			name = Cell;
+			name = Views;
 			sourceTree = "<group>";
 		};
-		849A793E1B6A35CC00AC2184 /* Collection View Layout */ = {
+		849A793E1B6A35CC00AC2184 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
 				84C60B4D1B61ABF20031271F /* JJFlowLayout.h */,
 				84C60B4E1B61ABF20031271F /* JJFlowLayout.m */,
 			);
-			name = "Collection View Layout";
+			name = Layout;
 			sourceTree = "<group>";
 		};
-		849A793F1B6A35E600AC2184 /* View Controller */ = {
+		849A793F1B6A35E600AC2184 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				842F83131B5FC24000E9A9A6 /* JJChatViewController.h */,
 				842F83141B5FC24000E9A9A6 /* JJChatViewController.m */,
 			);
-			name = "View Controller";
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		84C60B481B616ED00031271F /* Helpers */ = {
@@ -199,7 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C60B461B6164B40031271F /* JJBubble.h in Headers */,
-				8450029F1B6A4FA00046C96C /* TextToolbar.h in Headers */,
+				8450029F1B6A4FA00046C96C /* JJTextToolbar.h in Headers */,
 				842F831D1B5FC35200E9A9A6 /* JJCollectionViewCell.h in Headers */,
 				84C60B381B6131170031271F /* NSDate+JJChatKit.h in Headers */,
 				842F82B31B5FC0B500E9A9A6 /* JJChatKit.h in Headers */,
@@ -290,7 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845002A11B6A4FA00046C96C /* TextToolbar.xib in Resources */,
+				845002A11B6A4FA00046C96C /* JJTextToolbar.xib in Resources */,
 				841FD48F1B67C901004B89C7 /* JJCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,7 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845002A01B6A4FA00046C96C /* TextToolbar.m in Sources */,
+				845002A01B6A4FA00046C96C /* JJTextToolbar.m in Sources */,
 				842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */,
 				84C60B501B61ABF20031271F /* JJFlowLayout.m in Sources */,
 				842F831E1B5FC35200E9A9A6 /* JJCollectionViewCell.m in Sources */,

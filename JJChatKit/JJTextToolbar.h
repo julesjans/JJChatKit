@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TextToolbar : UIView
+@interface JJTextToolbar : UIView
 
 @property (nonatomic, weak) IBOutlet UITextView *textView;
 @property (nonatomic, weak) IBOutlet UIButton *postButton;

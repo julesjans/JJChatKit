@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Julian Jans. All rights reserved.
 //
 
-#import "TextToolbar.h"
+#import "JJTextToolbar.h"
 #import "UIColor+JJChatKit.h"
 
-@interface TextToolbar ()
+@interface JJTextToolbar ()
 
 @property (nonatomic) CGFloat desiredHeight;
 
 @end
 
 
-@implementation TextToolbar
+@implementation JJTextToolbar
 
 - (void)awakeFromNib {
  
@@ -53,6 +53,7 @@
     [super updateConstraints];
     
     #warning This is brittle, and relies on the OS
+    // Need to do a check that this is an auto layout constraint
     NSLayoutConstraint *constraint = (NSLayoutConstraint *)[self.constraints lastObject];
     constraint.constant = self.desiredHeight;
 }

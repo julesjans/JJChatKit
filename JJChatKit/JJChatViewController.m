@@ -13,7 +13,7 @@
 #import "JJBubble.h"
 
 
-#import "TextToolbar.h"
+#import "JJTextToolbar.h"
 
 // Issue one:
 // Sometimes losing the items when the device rotates.
@@ -37,7 +37,7 @@
 
 /// Handling of the text input view embedded in the inputAccessoryView
 @property (nonatomic, strong) UIView *inputAccessoryView;
-@property (nonatomic, strong) TextToolbar *textToolBar;
+@property (nonatomic, strong) JJTextToolbar *textToolBar;
 @property (nonatomic, weak) UITextView *textView;
 
 /// Placeholders for sizing the view according to the keyboard
@@ -67,7 +67,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     // Create the view for text input
-    self.textToolBar = (TextToolbar *)[[[NSBundle bundleForClass:[TextToolbar class]] loadNibNamed:@"TextToolbar" owner:self options:nil] lastObject];
+    self.textToolBar = (JJTextToolbar *)[[[NSBundle bundleForClass:[JJTextToolbar class]] loadNibNamed:@"TextToolbar" owner:self options:nil] lastObject];
     self.inputAccessoryView = self.textToolBar;
     self.textView = self.textToolBar.textView;
     self.textView.delegate = self;
