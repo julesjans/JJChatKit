@@ -10,7 +10,8 @@
 
 @protocol JJMessage <NSObject>
 
-@property (nonatomic, readonly) NSString *content;
+@property (nonatomic, readonly) NSString *content, *senderName;
+@property (nonatomic, readonly) NSDate *sentDate;
 @property (nonatomic, readonly) BOOL recipient, read;
 
 @end

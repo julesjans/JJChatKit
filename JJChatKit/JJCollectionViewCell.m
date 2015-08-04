@@ -40,15 +40,14 @@
     self.recipient = message.recipient;
     
     // Set the initial colours of the bubble according to the recipient
+    [self.messageLabel setFont:self.controller.messageFont];
     [self.messageLabel setTextColor:(self.recipient ? [UIColor fromTextColour] : [UIColor toTextColour])];
     [self.messageLabel setTextAlignment:(self.recipient ? NSTextAlignmentLeft : NSTextAlignmentRight)];
     [self.messageLabel setText:message.content];
 
     self.minWidth.constant = BUBBLE_FACTOR;
     
-    
     NSString *visualFormat;
-    
     
     BubblePosition bubblePosition = self.recipient ? BubbleLeft : BubbleRight;
     
@@ -72,6 +71,7 @@
     
 
     self.bubbleView.bubblePosition = bubblePosition;
+    self.bubbleView.controller = self.controller;
     
     [self removeConstraints:self.alignmentConstraints];
     

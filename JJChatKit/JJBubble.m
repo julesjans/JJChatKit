@@ -34,7 +34,7 @@
 {
     switch (self.bubblePosition) {
         case BubbleLeft:
-            [[UIColor fromBackgroundColour] setFill];
+            [[self.controller fromBackgroundColour] setFill];
             
             // Flip the drawing over the horizontal axis
             CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -44,7 +44,7 @@
             
             break;
         case BubbleRight:
-            [[UIColor toBackgroundColour] setFill];
+            [[self.controller toBackgroundColour] setFill];
             break;
         default:
             break;

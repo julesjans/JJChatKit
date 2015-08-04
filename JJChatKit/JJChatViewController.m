@@ -8,25 +8,15 @@
 
 #import "JJChatViewController.h"
 #import "NSString+JJChatkit.h"
+#import "UIColor+JJChatkit.h"
 #import "JJCollectionViewCell.h"
 #import "JJFlowLayout.h"
 #import "JJBubble.h"
-
-
 #import "JJTextToolbar.h"
 
-// Issue one:
-// Sometimes losing the items when the device rotates.
 
-// Issue two:
-// There is a visible jar when the text view returns on the second line, probably to do with the scroll to rect method
-
-// Issue three:
-// When can the initial scroll to the bottom view take place?, viewWillAppear seems to be too early?
-
-// Issue four:
-// Need to fix where the colours are being set
-
+#warning Losing items on rotation
+#warning Handing down the view controller is a bad design pattern
 
 
 @interface JJChatViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
@@ -43,14 +33,6 @@
 /// Placeholders for sizing the view according to the keyboard
 @property (nonatomic) CGSize kbSize;
 
-// Is this all to be binned?
-//@property (nonatomic, strong) UITapGestureRecognizer *resetKeyboardGesture;
-//@property (nonatomic, weak) IBOutlet UIButton *sendMessageButton;
-//@property (nonatomic, weak) IBOutlet UIBarButtonItem *sendButton;
-//@property (nonatomic, weak) IBOutlet UIView *textViewContainer;
-//@property (nonatomic, weak) IBOutlet UIView *postView;
-//@property (nonatomic, weak) IBOutlet UITextView *messageTextView;
-
 @end
 
 @implementation JJChatViewController
@@ -62,12 +44,13 @@
 {
     [super viewDidLoad];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     // Create the view for text input
-    self.textToolBar = (JJTextToolbar *)[[[NSBundle bundleForClass:[JJTextToolbar class]] loadNibNamed:@"TextToolbar" owner:self options:nil] lastObject];
+    self.textToolBar = (JJTextToolbar *)[[[NSBundle bundleForClass:[JJTextToolbar class]] loadNibNamed:@"JJTextToolbar" owner:self options:nil] lastObject];
+    self.textToolBar.delegate = self;
+    [self.textToolBar setFont:self.messageFont];
     self.inputAccessoryView = self.textToolBar;
     self.textView = self.textToolBar.textView;
     self.textView.delegate = self;
@@ -87,6 +70,9 @@
     // Gestures to handle the keyboard dismiss
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+    
+    // Set up the placeholder
+    [self togglePlaceholder:self.textView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -99,7 +85,7 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-#warning Is this expensive?
+    #warning Is this expensive?
     // Seems to be the only way to get the transitions to work?
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         
@@ -119,10 +105,9 @@
 }
 
 
-#pragma mark - Attribute Housekeeping
+#pragma mark - Controller Housekeeping
 
-- (void)dismissKeyboard
-{
+- (void)dismissKeyboard {
     [self.textView resignFirstResponder];
 }
 
@@ -176,7 +161,7 @@
     JJCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JJChatCell" forIndexPath:indexPath];
     
     id<JJMessage> message = [self.messages objectAtIndex:indexPath.row];
-    
+    cell.controller = self;
     cell.message = message;
     
     return cell;
@@ -185,17 +170,20 @@
 
 #pragma mark - Keyboard handling
 
-- (void)keyboardDidShow:(NSNotification*)aNotification
+- (void)KeyboardDidShow:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
     self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     CGRect frame = self.collectionView.frame;
     frame.size.height = self.view.bounds.size.height - self.kbSize.height;
     self.collectionView.frame = frame;
+    
+    [self scrollToBottomAnimated:YES];
 }
 
 - (void)keyboardWillHide:(NSNotification*)aNotification
 {
+
     NSDictionary* info = [aNotification userInfo];
     self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     CGRect frame = self.collectionView.frame;
@@ -208,52 +196,49 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    
-    // Sort out the magick numbers !
-    
-    [self.textToolBar setHeight:MIN(textView.contentSize.height + 9, 160)];
+    [self.textToolBar setOptimisedHeight];
     [self scrollToCaretInTextView:textView animated:NO];
-    
-    // TODO: Add a listener to move the scroll view up with the text input..?
-    [self scrollToBottomAnimated:YES];
+    [self togglePostButton];
 }
 
 // http://stackoverflow.com/questions/22315755/ios-7-1-uitextview-still-not-scrolling-to-cursor-caret-after-new-line
-- (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated {
-    
-#warning this still scrolls if there is a newline character..?
+- (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated
+{
     CGRect rect = [textView caretRectForPosition:textView.selectedTextRange.end];
     rect.size.height += textView.textContainerInset.bottom;
     [textView scrollRectToVisible:rect animated:animated];
 }
 
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self togglePlaceholder:textView];
+}
 
-//// Sets the enabled status of the send button, according to the content of the text view
-//- (void)toggleSendButton
-//{
-//    if ([self.messageTextView.text isEqualToString:@""] || [self.messageTextView.text isEqualToString:[self placeholderText]]) {
-//        [self.sendButton setEnabled:NO];
-//    } else {
-//        [self.sendButton setEnabled:YES];
-//    }
-//}
-//
-//- (NSString *)placeholderText
-//{
-//    return [NSString stringWithFormat:@"Message"];
-//}
-//
-//// Put the placeholder back if there is no text
-//-(void)textViewDidEndEditing:(UITextView *)textView
-//{
-//    if ([textView.text isEqualToString:@""]) {
-//        textView.text = [self placeholderText];
-//        [self.messageTextView setTextColor:[UIColor separatorColor]];
-//    }
-//    [self toggleSendButton];
-//}
-//
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self togglePlaceholder:textView];
+}
 
+- (void)togglePlaceholder:(UITextView *)textView
+{
+    if (![textView.text validString] || [textView.text isEqualToString:@"Placeholder text"]) {
+        textView.text = [self placeholderText];
+        [textView setTextColor:[UIColor lightGrayColor]];
+    } else if ([textView.text isEqualToString:self.placeholderText]) {
+        textView.text = @"";
+        [textView setTextColor:[UIColor blackColor]];
+    }
+    [self togglePostButton];
+}
+
+- (void)togglePostButton
+{
+    if (![self.textView.text validString] || [self.textView.text isEqualToString:[self placeholderText]]) {
+        [self.textToolBar.postButton setEnabled:NO];
+    } else {
+        [self.textToolBar.postButton setEnabled:YES];
+    }
+}
 
 
 #pragma mark - UIScrollViewDelegate & Actions
@@ -271,6 +256,78 @@
     if ([scrollView isEqual:self.collectionView]) {
         [self.textView resignFirstResponder];
     }
+}
+
+
+#pragma mark - Custom Action Delegate
+
+- (void)didPostMessage:(NSString *)message
+{
+    [self.textView setText:@""];
+    [self.textToolBar setOptimisedHeight];
+    [self.textView resignFirstResponder];
+}
+
+
+#pragma mark - View Attributes
+
+- (UIFont *)messageFont {
+    if (!_messageFont) {
+        return [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
+    }
+    return _messageFont;
+}
+
+- (NSString *)placeholderText {
+    if (!_placeholderText) {
+        return @"Message";
+    }
+    return _placeholderText;
+}
+
+
+#warning this is not the best way to set the colours for the view..?
+
+- (UIColor *)fromBackgroundColour {
+    if (!_fromBackgroundColour) {
+        return [UIColor fromBackgroundColour];
+    }
+    return _fromBackgroundColour;
+}
+
+- (UIColor *)fromTextColour {
+    if (!_fromTextColour) {
+        return [UIColor fromTextColour];
+    }
+    return _fromTextColour;
+}
+
+- (UIColor *)toBackgroundColour {
+    if (!_toBackgroundColour) {
+        return [UIColor toBackgroundColour];
+    }
+    return _toBackgroundColour;
+}
+
+- (UIColor *)toTextColour {
+    if (!_toTextColour) {
+        return [UIColor toTextColour];
+    }
+    return _toTextColour;
+}
+
+- (UIColor *)inputViewColor {
+    if (!_inputViewColor) {
+        return [UIColor inputViewColor];
+    }
+    return _inputViewColor;
+}
+
+- (UIColor *)inputViewBorderColor {
+    if (!_inputViewBorderColor) {
+        return [UIColor inputViewBorderColor];
+    }
+    return _inputViewBorderColor;
 }
 
 @end

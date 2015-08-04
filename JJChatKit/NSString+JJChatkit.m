@@ -15,4 +15,10 @@
     return [NSString stringWithFormat:@"%ld-%@", (long)[[UIApplication sharedApplication] statusBarOrientation], @([self length])];
 }
 
+- (BOOL)validString
+{
+    return (self && ![[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isEqualToString:@""]);
+}
+
+
 @end

@@ -12,4 +12,6 @@
 
 - (NSString *)keyForOrientation;
 
+- (BOOL)validString;
+
 @end

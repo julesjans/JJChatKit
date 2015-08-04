@@ -19,7 +19,6 @@
 }
 
 + (UIColor *)toBackgroundColour {
-//    return [UIColor colorWithRed:255/255.0 green:240/255.0 blue:239/255.0 alpha:1.0];
     return [UIColor colorWithRed:79/255.0 green:240/255.0 blue:87/255.0 alpha:1.0];
 }
 

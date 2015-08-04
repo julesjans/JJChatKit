@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for JJChatKit.
-FOUNDATION_EXPORT double JJChatKitVersionNumber;
 
-//! Project version string for JJChatKit.
+FOUNDATION_EXPORT double JJChatKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char JJChatKitVersionString[];
 
 #import <JJChatKit/JJChatViewController.h>

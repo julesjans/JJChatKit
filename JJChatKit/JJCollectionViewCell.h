@@ -8,10 +8,13 @@
 
 
 #import <UIKit/UIKit.h>
+#import "JJChatViewController.h"
 #import "JJMessage.h"
 
 @interface JJCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) id<JJMessage> message;
+
+@property (nonatomic, weak) JJChatViewController *controller;
 
 @end
