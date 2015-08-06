@@ -12,12 +12,12 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJo-H7-paU">
-                    <rect key="frame" x="538" y="283" width="54" height="34"/>
+                    <rect key="frame" x="538" y="284" width="54" height="32"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="36" id="5R8-UM-T6e"/>
                         <constraint firstAttribute="width" constant="54" id="9rs-Qq-Mbn"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="Send">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>

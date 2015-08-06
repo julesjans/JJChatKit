@@ -18,8 +18,10 @@
 
 + (UIColor *)toTextColour;
 
-+ (UIColor *)inputViewColor;
++ (UIColor *)inputViewColour;
 
-+ (UIColor *)inputViewBorderColor;
++ (UIColor *)inputViewBorderColour;
+
++ (UIColor *)sendButtonColour;
 
 @end

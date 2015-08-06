@@ -17,13 +17,13 @@
 
 #warning Losing items on rotation
 #warning Handing down the view controller is a bad design pattern
-
+#warning Make all the colours colOUR!
 
 @interface JJChatViewController ()  <UICollectionViewDataSource, UICollectionViewDelegate, UITextViewDelegate>
 
 // Collection View implementation
 @property (nonatomic, strong) JJFlowLayout *flowLayout;
-@property (nonatomic, strong) UICollectionView *collectionView;
+
 
 /// Handling of the text input view embedded in the inputAccessoryView
 @property (nonatomic, strong) UIView *inputAccessoryView;
@@ -50,7 +50,6 @@
     // Create the view for text input
     self.textToolBar = (JJTextToolbar *)[[[NSBundle bundleForClass:[JJTextToolbar class]] loadNibNamed:@"JJTextToolbar" owner:self options:nil] lastObject];
     self.textToolBar.delegate = self;
-    [self.textToolBar setFont:self.messageFont];
     self.inputAccessoryView = self.textToolBar;
     self.textView = self.textToolBar.textView;
     self.textView.delegate = self;
@@ -73,6 +72,15 @@
     
     // Set up the placeholder
     [self togglePlaceholder:self.textView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+#warning Fix for the delegate not having loadied in the view
+    self.textToolBar.delegate = self;
+    [self.textView setNeedsDisplay];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -261,7 +269,7 @@
 
 #pragma mark - Custom Action Delegate
 
-- (void)didPostMessage:(NSString *)message
+- (void)didSendMessage:(NSString *)message
 {
     [self.textView setText:@""];
     [self.textToolBar setOptimisedHeight];
@@ -316,18 +324,25 @@
     return _toTextColour;
 }
 
-- (UIColor *)inputViewColor {
-    if (!_inputViewColor) {
-        return [UIColor inputViewColor];
+- (UIColor *)inputViewColour {
+    if (!_inputViewColour) {
+        return [UIColor inputViewColour];
     }
-    return _inputViewColor;
+    return _inputViewColour;
 }
 
-- (UIColor *)inputViewBorderColor {
-    if (!_inputViewBorderColor) {
-        return [UIColor inputViewBorderColor];
+- (UIColor *)inputViewBorderColour {
+    if (!_inputViewBorderColour) {
+        return [UIColor inputViewBorderColour];
     }
-    return _inputViewBorderColor;
+    return _inputViewBorderColour;
+}
+
+- (UIColor *)sendButtonColour {
+    if (!_sendButtonColour) {
+        return [UIColor sendButtonColour];
+    }
+    return _sendButtonColour;
 }
 
 @end

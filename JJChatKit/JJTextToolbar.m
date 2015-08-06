@@ -18,12 +18,17 @@
 
 
 
-#define TOTAL_HEIGHT 49.0f
+#define TOTAL_HEIGHT 45.0f
 #define TOTAL_VERTICAL_PADDING 16.0f
 #define MAGIC_NUMBER 9.0f
 
 
 @implementation JJTextToolbar
+
+
+
+
+#warning there are no font color settings in here why isn't this working
 
 #pragma mark - View Lifecycle
 
@@ -31,21 +36,31 @@
  
     [super awakeFromNib];
     
-    self.backgroundColor = [UIColor inputViewColor];
+    self.backgroundColor = [UIColor inputViewColour];
     self.clipsToBounds = YES;
     
     CALayer *rightBorder = [CALayer layer];
-    rightBorder.backgroundColor = [UIColor inputViewBorderColor].CGColor;
+    rightBorder.backgroundColor = [self.delegate inputViewBorderColour].CGColor;
     rightBorder.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
     [self.layer addSublayer:rightBorder];
     
-    [self.postButton setTintColor:[UIColor toBackgroundColour]];
+    [self.postButton setTintColor:[self.delegate sendButtonColour]];
 
     self.textView.contentInset = UIEdgeInsetsMake(-3, 0, -4, 0);
     
     [self.textView.layer setCornerRadius:6.0];
 
     [self setHeight:TOTAL_HEIGHT];
+}
+
+
+- (void)setDelegate:(JJChatViewController *)delegate
+{
+    _delegate = delegate;
+    
+    self.backgroundColor = [delegate inputViewColour];
+    [self.postButton setTintColor:[delegate sendButtonColour]];
+    self.textView.font = delegate.messageFont;
 }
 
 
@@ -90,7 +105,7 @@
 
 - (IBAction)didPostMessage:(id)sender
 {
-    [self.delegate didPostMessage:self.textView.text];
+    [self.delegate didSendMessage:self.textView.text];
 }
 
 @end

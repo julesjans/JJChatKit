@@ -15,6 +15,9 @@
 @property (nonatomic, weak) IBOutlet UIButton *postButton;
 
 // TODO: There is no protocol for this delegate!
+
+// where is this being set..?
+
 @property (nonatomic, weak) JJChatViewController *delegate;
 
 - (void)setOptimisedHeight;

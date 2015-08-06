@@ -41,7 +41,7 @@
     
     // Set the initial colours of the bubble according to the recipient
     [self.messageLabel setFont:self.controller.messageFont];
-    [self.messageLabel setTextColor:(self.recipient ? [UIColor fromTextColour] : [UIColor toTextColour])];
+    [self.messageLabel setTextColor:(self.recipient ? [self.controller fromTextColour] : [self.controller toTextColour])];
     [self.messageLabel setTextAlignment:(self.recipient ? NSTextAlignmentLeft : NSTextAlignmentRight)];
     [self.messageLabel setText:message.content];
 

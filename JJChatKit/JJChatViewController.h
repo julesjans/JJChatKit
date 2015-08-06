@@ -12,6 +12,9 @@
 
 @interface JJChatViewController : UIViewController
 
+/// The collection view
+@property (nonatomic, strong) UICollectionView *collectionView;
+
 /// The messages to be displayed, required. Must contain objects that conform to JJMessage protocol
 @property (nonatomic, strong) NSArray *messages;
 
@@ -22,10 +25,11 @@
 @property (nonatomic, strong) UIColor *fromTextColour;
 @property (nonatomic, strong) UIColor *toBackgroundColour;
 @property (nonatomic, strong) UIColor *toTextColour;
-@property (nonatomic, strong) UIColor *inputViewColor;
-@property (nonatomic, strong) UIColor *inputViewBorderColor;
+@property (nonatomic, strong) UIColor *inputViewColour;
+@property (nonatomic, strong) UIColor *inputViewBorderColour;
+@property (nonatomic, strong) UIColor *sendButtonColour;
 
 /// The action called when the message has been posted, call super to dismiss and clear the view
-- (void)didPostMessage:(NSString *)message;
+- (void)didSendMessage:(NSString *)message;
 
 @end
