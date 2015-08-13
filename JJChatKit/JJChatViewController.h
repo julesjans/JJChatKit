@@ -32,4 +32,6 @@
 /// The action called when the message has been posted, call super to dismiss and clear the view
 - (void)didSendMessage:(NSString *)message;
 
+- (void)scrollToBottomAnimated:(BOOL)animated;
+
 @end

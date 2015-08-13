@@ -10,4 +10,6 @@
 
 @interface JJFlowLayout : UICollectionViewFlowLayout
 
+@property (nonatomic) BOOL skipAnimations;
+
 @end

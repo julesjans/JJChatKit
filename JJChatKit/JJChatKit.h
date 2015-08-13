@@ -14,3 +14,4 @@ FOUNDATION_EXPORT const unsigned char JJChatKitVersionString[];
 
 #import <JJChatKit/JJChatViewController.h>
 #import <JJChatKit/JJMessage.h>
+#import <JJChatKit/JJTextToolbar.h>

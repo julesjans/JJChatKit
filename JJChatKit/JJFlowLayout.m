@@ -82,7 +82,7 @@
         CGPoint center = item.center;
         UIAttachmentBehavior *springBehaviour = [[UIAttachmentBehavior alloc] initWithItem:item attachedToAnchor:center];
         
-        springBehaviour.length = 0.0f;
+        springBehaviour.length = 0.4f;
         springBehaviour.damping = 0.9f;
         springBehaviour.frequency = 0.9f;
         
@@ -105,6 +105,10 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
+    if (self.skipAnimations) {
+        return NO;
+    }
+    
     CGPoint touchLocation = [self.collectionView.panGestureRecognizer locationInView:self.collectionView];
     CGFloat delta = newBounds.origin.y - self.collectionView.bounds.origin.y;
     
@@ -113,7 +117,7 @@
     [self.dynamicAnimator.behaviors enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour, NSUInteger idx, BOOL *stop) {
         
         CGFloat yDistanceFromTouch = fabs(touchLocation.y - springBehaviour.anchorPoint.y);
-        CGFloat scrollResistance = yDistanceFromTouch / 1300;
+        CGFloat scrollResistance = yDistanceFromTouch / 2500;
         
         UICollectionViewLayoutAttributes *item = springBehaviour.items.firstObject;
         CGPoint center = item.center;

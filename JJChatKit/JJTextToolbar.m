@@ -12,6 +12,7 @@
 @interface JJTextToolbar ()
 
 @property (nonatomic) CGFloat desiredHeight;
+@property (nonatomic, strong) CALayer *topBorder;
 
 @end
 
@@ -26,8 +27,6 @@
 @implementation JJTextToolbar
 
 
-
-
 #warning there are no font color settings in here why isn't this working
 
 #pragma mark - View Lifecycle
@@ -35,32 +34,43 @@
 - (void)awakeFromNib {
  
     [super awakeFromNib];
-    
-    self.backgroundColor = [UIColor inputViewColour];
+    [self configureView];
+}
+
+- (void)configureView
+{
+    self.backgroundColor = [self.delegate inputViewColour];
     self.clipsToBounds = YES;
     
-    CALayer *rightBorder = [CALayer layer];
-    rightBorder.backgroundColor = [self.delegate inputViewBorderColour].CGColor;
-    rightBorder.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
-    [self.layer addSublayer:rightBorder];
+    if (!self.topBorder) {
+        self.topBorder = [CALayer layer];
+        self.topBorder.backgroundColor = [UIColor inputViewBorderColour].CGColor;
+        self.topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
+        [self.layer addSublayer:self.topBorder];
+    }
+    
     
     [self.postButton setTintColor:[self.delegate sendButtonColour]];
-
+    
     self.textView.contentInset = UIEdgeInsetsMake(-3, 0, -4, 0);
     
     [self.textView.layer setCornerRadius:6.0];
-
+    
     [self setHeight:TOTAL_HEIGHT];
 }
+
+
 
 
 - (void)setDelegate:(JJChatViewController *)delegate
 {
     _delegate = delegate;
     
+#warning This is a fix to get the view correct
     self.backgroundColor = [delegate inputViewColour];
     [self.postButton setTintColor:[delegate sendButtonColour]];
     self.textView.font = delegate.messageFont;
+    self.topBorder.backgroundColor = [self.delegate inputViewBorderColour].CGColor;
 }
 
 

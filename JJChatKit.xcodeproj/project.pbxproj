@@ -15,7 +15,7 @@
 		842F83161B5FC24000E9A9A6 /* JJChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F83141B5FC24000E9A9A6 /* JJChatViewController.m */; };
 		842F831D1B5FC35200E9A9A6 /* JJCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 842F831B1B5FC35200E9A9A6 /* JJCollectionViewCell.h */; };
 		842F831E1B5FC35200E9A9A6 /* JJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F831C1B5FC35200E9A9A6 /* JJCollectionViewCell.m */; };
-		8450029F1B6A4FA00046C96C /* JJTextToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 8450029C1B6A4FA00046C96C /* JJTextToolbar.h */; };
+		8450029F1B6A4FA00046C96C /* JJTextToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 8450029C1B6A4FA00046C96C /* JJTextToolbar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		845002A01B6A4FA00046C96C /* JJTextToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8450029D1B6A4FA00046C96C /* JJTextToolbar.m */; };
 		845002A11B6A4FA00046C96C /* JJTextToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8450029E1B6A4FA00046C96C /* JJTextToolbar.xib */; };
 		8464BF0C1B6A3B7500D501E2 /* NSString+JJChatkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8464BF0A1B6A3B7500D501E2 /* NSString+JJChatkit.h */; };
@@ -356,6 +356,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -403,6 +404,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -430,6 +432,7 @@
 		842F82C41B5FC0B600E9A9A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -445,6 +448,7 @@
 		842F82C51B5FC0B600E9A9A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

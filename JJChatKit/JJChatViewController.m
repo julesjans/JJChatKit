@@ -47,12 +47,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     // Create the view for text input
     self.textToolBar = (JJTextToolbar *)[[[NSBundle bundleForClass:[JJTextToolbar class]] loadNibNamed:@"JJTextToolbar" owner:self options:nil] lastObject];
     self.textToolBar.delegate = self;
     self.inputAccessoryView = self.textToolBar;
     self.textView = self.textToolBar.textView;
     self.textView.delegate = self;
+    
     
     // Create the collection view with the custom layout
     self.flowLayout = [[JJFlowLayout alloc] init];
@@ -63,7 +66,6 @@
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
     [self.collectionView registerNib:[UINib nibWithNibName:@"JJCollectionViewCell" bundle: [NSBundle bundleForClass:[JJChatViewController class]]] forCellWithReuseIdentifier:@"JJChatCell"];
-    self.collectionView.frame = self.view.bounds;
     [self.view addSubview:self.collectionView];
 
     // Gestures to handle the keyboard dismiss
@@ -78,15 +80,13 @@
 {
     [super viewWillAppear:animated];
     
-#warning Fix for the delegate not having loadied in the view
+    #warning Fix for the delegate not having loaded in the view
     self.textToolBar.delegate = self;
-    [self.textView setNeedsDisplay];
-}
+    
+    self.kbSize = CGSizeMake(0, 45.0f);
 
-- (void)viewDidAppear:(BOOL)animated
-{
+    [self.collectionView layoutIfNeeded];
     [self scrollToBottomAnimated:NO];
-    [super viewDidAppear:animated];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -177,26 +177,31 @@
 
 
 #pragma mark - Keyboard handling
+- (void)setInsets
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.collectionView setContentInset: UIEdgeInsetsMake(self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0, self.kbSize.height, 0)];
+    }];
+}
 
 - (void)KeyboardDidShow:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
     self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    CGRect frame = self.collectionView.frame;
-    frame.size.height = self.view.bounds.size.height - self.kbSize.height;
-    self.collectionView.frame = frame;
     
-    [self scrollToBottomAnimated:YES];
+    [self setInsets];
+    
+    
+    if ([self.textView isFirstResponder]) {
+        [self scrollToBottomAnimated:YES];
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification*)aNotification
 {
-
     NSDictionary* info = [aNotification userInfo];
     self.kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    CGRect frame = self.collectionView.frame;
-    frame.size.height = (self.view.bounds.size.height - self.textToolBar.frame.size.height);
-    self.collectionView.frame = frame;
+    [self setInsets];
 }
 
 
@@ -249,13 +254,21 @@
 }
 
 
+
+
 #pragma mark - UIScrollViewDelegate & Actions
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    CGPoint bottomOffset = CGPointMake(0, self.collectionView.contentSize.height - self.collectionView.bounds.size.height);
+    CGPoint bottomOffset = CGPointMake(0, (self.collectionView.contentSize.height - self.collectionView.bounds.size.height) + self.kbSize.height);
+
     if ( bottomOffset.y > 0 ) {
+    
+        if (!animated) self.flowLayout.skipAnimations = YES;
+        
         [self.collectionView setContentOffset:bottomOffset animated:animated];
+        
+        if (!animated) self.flowLayout.skipAnimations = NO;
     }
 }
 
