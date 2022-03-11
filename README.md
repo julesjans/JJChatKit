@@ -8,4 +8,4 @@ See SampleImageApp for an example.
 
 The Framework is used in: [Petbu on the App Store](https://itunes.apple.com/us/app/petbu/id962528191?mt=8)
 
-![Chatkit](http://bucket-uk.julesjans.com.s3.amazonaws.com/Misc/Images/jjchatkit-simulator.gif)
+![jjchatkit-simulator](https://user-images.githubusercontent.com/57953/157979942-198a358d-bc27-4c09-bc9d-9bff5a222160.gif)
